@@ -175,7 +175,7 @@ ListeParticulesEntry* GEN_new_particule(Particule p) {
 }
 
 ListeParticulesEntry* GEN_new_particule_pointer(Particule* p) {
-    ListeParticulesEntry* new_vtx = malloc(sizeof(Particule));
+    ListeParticulesEntry* new_vtx = malloc(sizeof(ListeParticulesEntry));
 
     if (!new_vtx)
         return NULL;

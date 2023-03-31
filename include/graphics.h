@@ -15,7 +15,7 @@ void GFX_animate_quadtree(const QuadTree* qt);
  * 
  * @param qt 
  */
-void GFX_draw_quadtree_grid(QuadTree qt);
+void GFX_draw_quadtree_grid(QuadTreeRoot tree);
 
 /**
  * @brief Dessine les particules du Quadtree

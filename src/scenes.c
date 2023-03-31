@@ -10,11 +10,13 @@
 
 
 void SCN_Quadtree(Parameters params) {
-    //QuadTree qt = QuadTree_init(params.window.height * params.window.width);
     ListeParticules particules;
     TAILQ_INIT(&particules);
     MLV_Ev ev;
     Particule* point;
+    QuadTree qt = QuadTree_init(
+        params.feuille.taille_min, params.feuille.max_particules,
+        params.window.width);
 
     if (params.gen.enabled) {
         GEN_choose_generation(params, &particules);
@@ -24,7 +26,7 @@ void SCN_Quadtree(Parameters params) {
         );*/
     }
     while (1) {
-        // GFX_animate_quadtree(qt);
+        GFX_animate_quadtree(&qt);
         GFX_draw_liste_particules(&particules);
         MLV_actualise_window();
         ev = SCN_wait_ev();
@@ -34,7 +36,7 @@ void SCN_Quadtree(Parameters params) {
         }
         else if (IS_CLICK(ev)) {
             point = GEN_add_user_particule(&particules, (Particule) {.x = ev.x, .y = ev.y});
-            // Ajouter le point au Quadtree ici
+            QuadTree_add(&qt, point);
         }
     }
 

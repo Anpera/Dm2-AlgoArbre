@@ -19,7 +19,7 @@ typedef struct {
     
     struct {
         int max_particules; /**< Nombre max de particule dans une feuille (Kp) */
-        int taille_min; /**< Taille minimale du carré (puissance de 4) */
+        int taille_min;     /**< Taille minimale du carré (puissance de 4) */
     } feuille;
 
 } Parameters;
