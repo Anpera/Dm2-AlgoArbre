@@ -88,6 +88,9 @@ int QuadTree_purge(QuadTree* qt, QuadTreeRoot* tree) {
         TAILQ_REMOVE(&(*tree)->plist, entry, entries);
         Quadtree_add_aux(qt, tree, entry);
         entry = tmp;
+        (*tree)->len_plist--;
+        if (!entry)
+            break;
     }
 
     return 1;
@@ -97,16 +100,17 @@ int Quadtree_add_aux(QuadTree* qt, QuadTreeRoot* tree, ListeParticulesEntry* p) 
     if (!Square_contains_point((*tree)->pos, *p->p))
         return 0;
 
-    if ((*tree)->pos.size <= qt->taille_min || (*tree)->len_plist < qt->max_particules) {
-        TAILQ_INSERT_HEAD(&((*tree)->plist), p, entries);
-        (*tree)->len_plist++;
-    } else {
-        if (!DIVIDED_NODE(*tree)) {
+    if (!DIVIDED_NODE(*tree)) {
+        if (((*tree)->pos.size <= qt->taille_min || (*tree)->len_plist < qt->max_particules)) {
+            TAILQ_INSERT_HEAD(&((*tree)->plist), p, entries);
+            (*tree)->len_plist++;
+        }
+        else {
             QuadTree_purge(qt, tree);
         }
     }
-    if (DIVIDED_NODE(*tree)) {
-        Quadtree_add_aux(qt, &(*tree)->bd, p);
+    else {
+        Quadtree_add_aux(qt, &(*tree)->hg, p);
         Quadtree_add_aux(qt, &(*tree)->hd, p);
         Quadtree_add_aux(qt, &(*tree)->bd, p);
         Quadtree_add_aux(qt, &(*tree)->bg, p);
