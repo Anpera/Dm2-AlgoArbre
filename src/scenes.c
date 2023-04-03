@@ -11,7 +11,7 @@
 
 void SCN_Quadtree(Parameters params) {
     ListeParticules particules;
-    TAILQ_INIT(&particules);
+    STAILQ_INIT(&particules);
     MLV_Ev ev;
     Particule* point;
     QuadTree qt = QuadTree_init(

@@ -20,7 +20,7 @@ static Parameters params = {
 		.animation = false,
 	},
 	.feuille = {
-		.max_particules = 10,
+		.max_particules = 5,
 		.taille_min = 8,
 	},
 };

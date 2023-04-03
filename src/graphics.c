@@ -5,7 +5,7 @@
 
 void GFX_draw_liste_particules(const ListeParticules* particules) {
     ListeParticulesEntry* entry;
-    TAILQ_FOREACH(entry, particules, entries) {
+    STAILQ_FOREACH(entry, particules, entries) {
         MLV_draw_filled_circle(
             entry->p->x,
             entry->p->y,
