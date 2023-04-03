@@ -14,14 +14,14 @@ static Parameters params = {
 		.enabled = true,
 		.shape = CERCLE,
 		.rayon = 250,
-		.nb_points = 1248,
+		.nb_points = 0,
 		.concentration = 1.8,
-		.progressif = true,
+		.progressif = false,
 		.animation = false,
 	},
 	.feuille = {
-		.max_particules = 10,
-		.taille_min = 6,
+		.max_particules = 5,
+		.taille_min = 8,
 	},
 };
 

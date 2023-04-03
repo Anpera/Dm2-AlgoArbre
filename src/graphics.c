@@ -5,7 +5,7 @@
 
 void GFX_draw_liste_particules(const ListeParticules* particules) {
     ListeParticulesEntry* entry;
-    TAILQ_FOREACH(entry, particules, entries) {
+    STAILQ_FOREACH(entry, particules, entries) {
         MLV_draw_filled_circle(
             entry->p->x,
             entry->p->y,
@@ -13,4 +13,20 @@ void GFX_draw_liste_particules(const ListeParticules* particules) {
             MLV_COLOR_RED
         );
     }
+}
+
+void GFX_draw_quadtree_grid(QuadTreeRoot tree) {
+    if (!(tree))
+        return;
+    
+    Square sq = tree->pos;
+    MLV_draw_rectangle(sq.x, sq.y, sq.size, sq.size, MLV_COLOR_ORANGE);
+    GFX_draw_quadtree_grid(tree->hg);
+    GFX_draw_quadtree_grid(tree->hd);
+    GFX_draw_quadtree_grid(tree->bd);
+    GFX_draw_quadtree_grid(tree->bg);
+}
+
+void GFX_animate_quadtree(const QuadTree* qt) {
+    GFX_draw_quadtree_grid(qt->root);
 }

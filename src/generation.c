@@ -90,7 +90,7 @@ int GEN_points_formule(
 ) {
     PointDistance* tab_points = NULL;
     int offset_x = largeur / 2, offset_y = hauteur / 2;
-    TAILQ_INIT(points);
+    STAILQ_INIT(points);
     if (tri) {
         tab_points = malloc(nb_points * sizeof(PointDistance));
         if (!tab_points)
@@ -114,7 +114,7 @@ int GEN_points_formule(
             ListeParticulesEntry* new_entry = GEN_new_particule(p);
             if (!new_entry)
                 return 0;
-            TAILQ_INSERT_TAIL(points, new_entry, entries);
+            STAILQ_INSERT_TAIL(points, new_entry, entries);
         }
     }
     if (tri) {
@@ -129,13 +129,13 @@ void GEN_sort_tab_PointDistance_to_ListeParticules(
     qsort(tab_points, size, sizeof(PointDistance), GEN_compare_point_distance);
     for (int i = 0; i < size; ++i) {
         ListeParticulesEntry* new_entry = GEN_new_particule(tab_points[i].p);
-        TAILQ_INSERT_TAIL(points, new_entry, entries);
+        STAILQ_INSERT_TAIL(points, new_entry, entries);
     }
     free(tab_points);
 }
 
 void GEN_choose_generation(Parameters params, ListeParticules* points) {
-    TAILQ_INIT(points);
+    STAILQ_INIT(points);
 
     Particule (*formule) (int, int, int, int, int, double);
     if (params.gen.shape == CERCLE) {
@@ -175,7 +175,7 @@ ListeParticulesEntry* GEN_new_particule(Particule p) {
 }
 
 ListeParticulesEntry* GEN_new_particule_pointer(Particule* p) {
-    ListeParticulesEntry* new_vtx = malloc(sizeof(Particule));
+    ListeParticulesEntry* new_vtx = malloc(sizeof(ListeParticulesEntry));
 
     if (!new_vtx)
         return NULL;
@@ -192,20 +192,20 @@ Particule* GEN_add_user_particule(ListeParticules* particules, Particule p) {
 
     if (!new) return NULL;
 
-    TAILQ_INSERT_TAIL(particules, new, entries);
+    STAILQ_INSERT_TAIL(particules, new, entries);
 
     return new->p;
 }
 
 void GEN_free_ListParticules(ListeParticules* lst, bool free_points) {
-    ListeParticulesEntry *vtx = TAILQ_FIRST(lst), *vtx2;
+    ListeParticulesEntry *vtx = STAILQ_FIRST(lst), *vtx2;
 
     while (vtx != (void*) lst) {
-        vtx2 = TAILQ_NEXT(vtx, entries);
+        vtx2 = STAILQ_NEXT(vtx, entries);
         if (free_points)
             free(vtx->p);
         free(vtx);
         vtx = vtx2;
     }
-    TAILQ_INIT(lst);
+    STAILQ_INIT(lst);
 }
