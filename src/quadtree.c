@@ -4,7 +4,27 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int Quadtree_add_aux(QuadTree* qt, QuadTreeRoot* tree, ListeParticulesEntry* p);
+static int Quadtree_add_aux(QuadTree* qt, QuadTreeRoot* tree, ListeParticulesEntry* p) {
+    if (!Square_contains_point((*tree)->pos, *p->p))
+        return 0;
+
+    if (!DIVIDED_NODE(*tree)) {
+        if (((*tree)->pos.size <= qt->taille_min || (*tree)->len_plist < qt->max_particules)) {
+            STAILQ_INSERT_HEAD(&((*tree)->plist), p, entries);
+            (*tree)->len_plist++;
+            return 1;
+        }
+        else {
+            QuadTree_purge(qt, tree);
+        }
+    }
+    Quadtree_add_aux(qt, &(*tree)->hg, p);
+    Quadtree_add_aux(qt, &(*tree)->hd, p);
+    Quadtree_add_aux(qt, &(*tree)->bd, p);
+    Quadtree_add_aux(qt, &(*tree)->bg, p);
+
+    return 1;
+}
 
 QuadTree QuadTree_init(int carre_taille_min, int max_particules, int taille_fenetre) {
     QuadTree qt = {
@@ -89,28 +109,6 @@ int QuadTree_purge(QuadTree* qt, QuadTreeRoot* tree) {
         (*tree)->len_plist--;
         Quadtree_add_aux(qt, tree, entry);
     }
-
-    return 1;
-}
-
-int Quadtree_add_aux(QuadTree* qt, QuadTreeRoot* tree, ListeParticulesEntry* p) {
-    if (!Square_contains_point((*tree)->pos, *p->p))
-        return 0;
-
-    if (!DIVIDED_NODE(*tree)) {
-        if (((*tree)->pos.size <= qt->taille_min || (*tree)->len_plist < qt->max_particules)) {
-            STAILQ_INSERT_HEAD(&((*tree)->plist), p, entries);
-            (*tree)->len_plist++;
-            return 1;
-        }
-        else {
-            QuadTree_purge(qt, tree);
-        }
-    }
-    Quadtree_add_aux(qt, &(*tree)->hg, p);
-    Quadtree_add_aux(qt, &(*tree)->hd, p);
-    Quadtree_add_aux(qt, &(*tree)->bd, p);
-    Quadtree_add_aux(qt, &(*tree)->bg, p);
 
     return 1;
 }
