@@ -20,6 +20,21 @@ void SCN_Quadtree(Parameters params) {
 
     if (params.gen.enabled) {
         GEN_choose_generation(params, &particules);
+        struct ListeParticulesEntry *items;
+        STAILQ_FOREACH(items, &particules, entries){
+            QuadTree_add(&qt, items->p);
+            if (params.gen.animation){
+                MLV_draw_filled_circle(
+                    items->p->x,
+                    items->p->y,
+                    4,
+                    MLV_COLOR_RED
+                );
+                GFX_animate_quadtree(&qt);
+                MLV_wait_milliseconds(20);
+                MLV_actualise_window();
+            }
+        }
         /*QuadTree_load_particules_list(
             &particules, &qt,
             params.gen.animation? GFX_animate_quadtree : NULL

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <MLV/MLV_all.h>
+#include <getopt.h>
 #include "args.h"
 #include "scenes.h"
 
@@ -14,7 +15,7 @@ static Parameters params = {
 		.enabled = true,
 		.shape = CERCLE,
 		.rayon = 250,
-		.nb_points = 0,
+		.nb_points = 1250,
 		.concentration = 1.8,
 		.progressif = false,
 		.animation = false,
