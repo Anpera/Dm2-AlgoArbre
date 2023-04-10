@@ -119,3 +119,16 @@ int QuadTree_add(QuadTree* qt, Particule* p) {
 
     return 1;
 }
+
+void QuadTree_load_particules_list(
+    const ListeParticules* particules, QuadTree* qt,
+    void (*callback)(const ListeParticules*, const QuadTree*)
+) {
+    struct ListeParticulesEntry *items;
+    STAILQ_FOREACH(items, particules, entries){
+        QuadTree_add(qt, items->p);
+        if (callback){
+            callback(particules, qt);
+        }
+    }
+}

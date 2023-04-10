@@ -16,8 +16,8 @@ static Parameters params = {
 		.shape = CERCLE,
 		.rayon = 250,
 		.nb_points = 1250,
-		.concentration = 1.8,
-		.progressif = false,
+		.concentration = 2,
+		.progressif = true,
 		.animation = false,
 	},
 	.feuille = {
