@@ -201,7 +201,7 @@ Particule* GEN_add_user_particule(ListeParticules* particules, Particule p) {
 void GEN_free_ListParticules(ListeParticules* lst, bool free_points) {
     ListeParticulesEntry *vtx = STAILQ_FIRST(lst), *vtx2;
 
-    while (vtx != (void*) lst) {
+    while (vtx) {
         vtx2 = STAILQ_NEXT(vtx, entries);
         if (free_points)
             free(vtx->p);
