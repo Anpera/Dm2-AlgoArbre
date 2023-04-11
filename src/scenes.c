@@ -70,15 +70,11 @@ void SCN_Quadtree(Parameters params) {
 
 MLV_Ev SCN_wait_ev() {
     MLV_Ev ev;
-    ev.type = MLV_get_event(&ev.key_btn, NULL, NULL, NULL, NULL, &ev.x, &ev.y, &ev.button, &ev.state);
     MLV_wait_milliseconds(16);
-    /* ev.type = MLV_wait_keyboard_or_mouse_or_seconds(
-        &ev.key_btn, NULL, NULL,
-        &ev.x, &ev.y, 1
-    );
-    ev.state = MLV_PRESSED;
-    ev.button = MLV_BUTTON_LEFT;
-    */
+    
+    ev.type = MLV_get_event(&ev.key_btn, NULL, NULL, NULL, NULL, NULL, NULL, &ev.button, &ev.state);
+    if (ev.state == MLV_PRESSED && ev.button == MLV_BUTTON_LEFT)
+        MLV_get_mouse_position(&ev.x, &ev.y);
 
     return ev;
 }

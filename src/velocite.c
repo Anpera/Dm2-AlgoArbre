@@ -2,7 +2,7 @@
 
 Vitesse gen_vitesse(int acceleration){
     Vitesse vect;
-    double point = point = MLV_get_random_double(1,2) * 2 * PI;
+    double point = point = MLV_get_random_double(0,1) * 2 * PI;
     vect.anglex = acceleration * cos(point);
     vect.angley = acceleration * sin(point);
 
