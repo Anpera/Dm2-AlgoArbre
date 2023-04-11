@@ -52,8 +52,8 @@ void SCN_Quadtree(Parameters params) {
         );
     }
     while (1) {
-        applique_vit(params, &particules);
         GFX_animate_quadtree(&particules, &qt);
+        applique_vit(params, &particules);
         ev = SCN_wait_ev();
         if (ev.type == MLV_KEY) {
             if (ev.key_btn == MLV_KEYBOARD_ESCAPE)
@@ -71,7 +71,7 @@ void SCN_Quadtree(Parameters params) {
 MLV_Ev SCN_wait_ev() {
     MLV_Ev ev;
     MLV_wait_milliseconds(16);
-    
+
     ev.type = MLV_get_event(&ev.key_btn, NULL, NULL, NULL, NULL, NULL, NULL, &ev.button, &ev.state);
     if (ev.state == MLV_PRESSED && ev.button == MLV_BUTTON_LEFT)
         MLV_get_mouse_position(&ev.x, &ev.y);

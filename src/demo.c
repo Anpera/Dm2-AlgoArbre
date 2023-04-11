@@ -46,6 +46,10 @@ void options_gen(){
     return;
 }
 
+int count_bits1(int test){
+    return __builtin_popcountll(test);
+}
+
 void flags(int argc, char* argv[]){
     int opt, options_index = 0;
     static struct option long_options[] = {
