@@ -2,10 +2,12 @@
 #define TYPES_INCLUDED
 
 #include <sys/queue.h>
+#include "velocite.h"
 
 typedef struct Particule {
     int x;
     int y;
+    Vitesse vect;
 } Particule;
 
 typedef struct ListeParticulesEntry {

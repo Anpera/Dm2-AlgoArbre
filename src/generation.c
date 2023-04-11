@@ -6,8 +6,7 @@
 #include <sys/queue.h>
 #include "generation.h"
 #include "types.h"
-
-#define PI 3.14159265358979323846
+#include "velocite.h"
 
 
 inline double rand_double(double n) {
@@ -63,6 +62,7 @@ Particule GEN_formule_carre_uniforme(
     p.x = uniform(-r_max, r_max) + offset_x;
     p.y = uniform(-r_max, r_max) + offset_y;
 
+
     return p;
 }
 
@@ -86,6 +86,7 @@ int GEN_points_formule(
     ListeParticules* points,
     int largeur, int hauteur,
     int nb_points, int r_max, double concentration, bool tri,
+    int velocite,
     Particule (*formule) (int, int, int, int, int, double)
 ) {
     PointDistance* tab_points = NULL;
@@ -103,7 +104,7 @@ int GEN_points_formule(
             i, nb_points,
             r_max, concentration
         );
-
+        p.vect = gen_vitesse(velocite);
         // Si on s'attend à trier, on les ajoute à un tableau
         if (tri) {
             double dist = GEN_distance(p.x, p.y, offset_x, offset_y);
@@ -153,7 +154,7 @@ void GEN_choose_generation(Parameters params, ListeParticules* points) {
         params.window.width, params.window.height,
         params.gen.nb_points, params.gen.rayon,
         params.gen.concentration, params.gen.progressif,
-        formule
+        params.gen.velocite, formule
     );
     /*printf(
         "Animation : %d, Tri : %d\n",
