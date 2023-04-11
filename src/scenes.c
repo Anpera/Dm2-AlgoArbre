@@ -17,8 +17,8 @@ void applique_vit(Parameters params, ListeParticules *particules){
             invertVect(&entry->p->vect, 0);
             entry->p->x += entry->p->vect.anglex;
 
-            printf("x : %d ", entry->p->x);
-            printf("y : %d\n", entry->p->y);
+            // printf("x : %d ", entry->p->x);
+            // printf("y : %d\n", entry->p->y);
         }
         
         if (entry->p->y + entry->p->vect.angley >= params.window.height ||
@@ -26,8 +26,8 @@ void applique_vit(Parameters params, ListeParticules *particules){
             
             invertVect(&entry->p->vect, 1);
             entry->p->y += entry->p->vect.angley;
-            printf("x : %d ", entry->p->x);
-            printf("y : %d\n", entry->p->y);
+            // printf("x : %d ", entry->p->x);
+            // printf("y : %d\n", entry->p->y);
         }
 
         entry->p->x += entry->p->vect.anglex;

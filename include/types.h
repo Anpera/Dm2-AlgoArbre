@@ -5,8 +5,8 @@
 #include "velocite.h"
 
 typedef struct Particule {
-    int x;
-    int y;
+    double x;
+    double y;
     Vitesse vect;
 } Particule;
 
