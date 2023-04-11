@@ -5,24 +5,19 @@
 
 /**
  * @brief Dessine les points et le quadrillage du Quadtree
- * 
+ * et affiche dans la fenêtre graphique
+ * @param particules
  * @param qt 
  */
-void GFX_animate_quadtree(const QuadTree* qt);
+void GFX_animate_quadtree(const ListeParticules* particules, const QuadTree* qt);
 
 /**
- * @brief Dessine le quadrillage du Quadtree
+ * @brief Dessine le Quadtree, et optionnellement ses particules
  * 
  * @param qt 
+ * @param draw_particules true : dessine les particules
  */
-void GFX_draw_quadtree_grid(QuadTreeRoot tree);
-
-/**
- * @brief Dessine les particules du Quadtree
- * 
- * @param qt 
- */
-void GFX_draw_quadtree_particules(QuadTree qt);
+void GFX_draw_quadtree_grid(const QuadTreeRoot tree, bool draw_particules);
 
 /**
  * @brief Dessines les points d'une liste de particules

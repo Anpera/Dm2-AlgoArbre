@@ -25,13 +25,14 @@ $(BUILD_DIR)/$(EXEC): $(OBJS)
 	$(CC) $^ -o $@ $(LIBS)
 
 # Dépendances
-demo.o: demo.c args;h scenes.h
+demo.o: demo.c args.h scenes.h
 generation.o: generation.c types.h
 graphics.o: graphics.c graphics.h types.h
 grille.o: grille.c grille.h
 scenes.o: scenes.c scenes.h UI.h graphics.h generation.h quadtree.h
 quadtree.o: quadtree.c quadtree.h
 UI.o: UI.c UI.h grille.h
+velocite.o: velocite.c velocite.h
 
 # Création des fichiers objets à partir des fichiers sources
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c

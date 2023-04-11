@@ -5,6 +5,7 @@
 #include <MLV/MLV_color.h>
 #include "args.h"
 #include "types.h"
+#include "velocite.h"
 
 
 typedef struct {
@@ -64,6 +65,7 @@ int GEN_points_formule(
     ListeParticules* points,
     int largeur, int hauteur,
     int nb_points, int r_max, double concentration, bool tri,
+    int velocite,
     Particule (*formule) (int, int, int, int, int, double)
 );
 
