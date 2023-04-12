@@ -103,6 +103,13 @@ int QuadTree_add(QuadTree* qt, Particule* p);
 int QuadTree_purge(QuadTree* qt, QuadTreeRoot* node);
 
 /**
+ * @brief Réinitialise le Quadtree.
+ * 
+ * @param qt 
+ */
+void Quadtree_reset(QuadTree* qt);
+
+/**
  * @brief Ajoute sucessivement les particules de la liste
  * au Quadtree
  * 

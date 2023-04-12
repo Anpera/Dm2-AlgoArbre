@@ -155,3 +155,10 @@ ListeParticulesEntry* TabListeEntryParticules_alloc_cellule(
     new_entry->p = p;
     return new_entry;
 }
+
+void Quadtree_reset(QuadTree* qt) {
+    qt->len = 0;
+    qt->root = Quadtree_alloc_node(
+        qt, qt->root->pos);
+    qt->tab_plist.len = 0;
+}
