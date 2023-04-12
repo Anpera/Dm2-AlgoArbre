@@ -18,13 +18,14 @@ static Parameters params = {
         .nb_points = 1250,
         .concentration = 2,
         .progressif = true,
-        .animation = false,
-        .velocite = 2,
+        .animation = true,
+        .velocite = 0,
     },
     .feuille = {
-        .max_particules = 5,
+        .max_particules = 3,
         .taille_min = 8,
     },
+    .nb_clicks = 10,
 };
 
 void options_gen(){

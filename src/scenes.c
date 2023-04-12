@@ -40,9 +40,7 @@ void SCN_Quadtree(Parameters params) {
     STAILQ_INIT(&particules);
     MLV_Ev ev;
     Particule* point;
-    QuadTree qt = QuadTree_init(
-        params.feuille.taille_min, params.feuille.max_particules,
-        params.window.width);
+    QuadTree qt = QuadTree_init(params);
 
     if (params.gen.enabled) {
         GEN_choose_generation(params, &particules);
@@ -61,7 +59,8 @@ void SCN_Quadtree(Parameters params) {
         }
         else if (IS_CLICK(ev)) {
             point = GEN_add_user_particule(&particules, (Particule) {.x = ev.x, .y = ev.y, .vect = gen_vitesse(params.gen.velocite)});
-            QuadTree_add(&qt, point);
+            if (!QuadTree_add(&qt, point))
+                fprintf(stderr, "Nombre maximum de points atteint.\n");
         }
     }
 
@@ -69,7 +68,7 @@ void SCN_Quadtree(Parameters params) {
 }
 
 MLV_Ev SCN_wait_ev() {
-    MLV_Ev ev;
+    MLV_Ev ev = {0};
     MLV_wait_milliseconds(16);
 
     ev.type = MLV_get_event(&ev.key_btn, NULL, NULL, NULL, NULL, NULL, NULL, &ev.button, &ev.state);

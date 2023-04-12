@@ -23,6 +23,8 @@ typedef struct {
         int taille_min;     /**< Taille minimale du carré (puissance de 4) */
     } feuille;
 
+    int nb_clicks;
+
 } Parameters;
 
 void print_help(void);
