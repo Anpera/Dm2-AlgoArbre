@@ -8,39 +8,41 @@
 #include "generation.h"
 #include "quadtree.h"
 
-void applique_vit(Parameters params, ListeParticules *particules){
-    ListeParticulesEntry* entry;
-    STAILQ_FOREACH(entry, particules, entries) {
-        if (entry->p->x + entry->p->vect.anglex >= params.window.width ||
-            entry->p->x + entry->p->vect.anglex < 0){
-            
-            invertVect(&entry->p->vect, 0);
-            entry->p->x += entry->p->vect.anglex;
+void applique_vit(Parameters params, TabPoints *particules){
+    Particule* p;
+    for (int i = 0; i < particules->len; i++) {
+        p = &particules->tab[i];
 
-            // printf("x : %d ", entry->p->x);
-            // printf("y : %d\n", entry->p->y);
+        if (p->x + p->vect.anglex >= params.window.width ||
+            p->x + p->vect.anglex < 0){
+            
+            invertVect(&p->vect, 0);
+            p->x += p->vect.anglex;
+
+            // printf("x : %d ", p->x);
+            // printf("y : %d\n", p->y);
         }
         
-        if (entry->p->y + entry->p->vect.angley >= params.window.height ||
-            entry->p->y + entry->p->vect.angley < 0){
+        if (p->y + p->vect.angley >= params.window.height ||
+            p->y + p->vect.angley < 0){
             
-            invertVect(&entry->p->vect, 1);
-            entry->p->y += entry->p->vect.angley;
-            // printf("x : %d ", entry->p->x);
-            // printf("y : %d\n", entry->p->y);
+            invertVect(&p->vect, 1);
+            p->y += p->vect.angley;
+            // printf("x : %d ", p->x);
+            // printf("y : %d\n", p->y);
         }
 
-        entry->p->x += entry->p->vect.anglex;
-        entry->p->y += entry->p->vect.angley;
+        p->x += p->vect.anglex;
+        p->y += p->vect.angley;
     }
 }
 
 void SCN_Quadtree(Parameters params) {
-    ListeParticules particules;
-    STAILQ_INIT(&particules);
+    TabPoints particules;
     MLV_Ev ev;
     Particule* point;
     QuadTree qt = QuadTree_init(params);
+    TABPoints_init_tabpoints(&particules, params.gen.nb_points + params.nb_clicks);
 
     if (params.gen.enabled) {
         GEN_choose_generation(params, &particules);
@@ -50,7 +52,7 @@ void SCN_Quadtree(Parameters params) {
         );
     }
     while (1) {
-        GFX_animate_quadtree(&particules, &qt);
+        GFX_animate_quadtree(&qt);
         applique_vit(params, &particules);
         ev = SCN_wait_ev();
         if (ev.type == MLV_KEY) {
@@ -58,13 +60,16 @@ void SCN_Quadtree(Parameters params) {
                 break;
         }
         else if (IS_CLICK(ev)) {
-            point = GEN_add_user_particule(&particules, (Particule) {.x = ev.x, .y = ev.y, .vect = gen_vitesse(params.gen.velocite)});
+            point = TABPoints_ajoute(
+                &particules,
+                (Particule) {.x = ev.x, .y = ev.y, .vect = gen_vitesse(params.gen.velocite)}
+            );
             if (!QuadTree_add(&qt, point))
                 fprintf(stderr, "Nombre maximum de points atteint.\n");
         }
     }
 
-    GEN_free_ListParticules(&particules, true);
+    TABPoints_free(&particules);
 }
 
 MLV_Ev SCN_wait_ev() {

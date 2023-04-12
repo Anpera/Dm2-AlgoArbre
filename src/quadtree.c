@@ -32,9 +32,9 @@ QuadTree QuadTree_init(Parameters params) {
         .len = 0,
     };
 
-    //int tab_size = pow(params.window.width / params.feuille.taille_min, 2);
+    // int tab_size = pow(params.window.width / params.feuille.taille_min, 2);
     // 4^0 + 4^1 + 4^2 + 4^3 + 4^n (n = log2(W))
-    int tab_size = (pow(4, log2(params.window.width)) - 1) / 3 + 1;
+    int tab_size = (pow(4, (int) log2(params.window.width) + 1) - 1) / 3 + 1;
 
     qt.tab = (QuadTreeNode*) malloc(tab_size * sizeof(QuadTreeNode));
     qt.max_len = tab_size;
@@ -133,14 +133,13 @@ int QuadTree_add(QuadTree* qt, Particule* p) {
 }
 
 void QuadTree_load_particules_list(
-    const ListeParticules* particules, QuadTree* qt,
-    void (*callback)(const ListeParticules*, const QuadTree*)
+    const TabPoints* particules, QuadTree* qt,
+    void (*callback)(const QuadTree*)
 ) {
-    struct ListeParticulesEntry *items;
-    STAILQ_FOREACH(items, particules, entries){
-        QuadTree_add(qt, items->p);
-        if (callback){
-            callback(particules, qt);
+    for (int i = 0; i < particules->len; ++i) {
+        QuadTree_add(qt, &particules->tab[i]);
+        if (callback) {
+            callback(qt);
         }
     }
 }

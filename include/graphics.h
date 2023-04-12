@@ -6,10 +6,9 @@
 /**
  * @brief Dessine les points et le quadrillage du Quadtree
  * et affiche dans la fenêtre graphique
- * @param particules
  * @param qt 
  */
-void GFX_animate_quadtree(const ListeParticules* particules, const QuadTree* qt);
+void GFX_animate_quadtree(const QuadTree* qt);
 
 /**
  * @brief Dessine le Quadtree, et optionnellement ses particules

@@ -19,7 +19,7 @@ static Parameters params = {
         .concentration = 2,
         .progressif = true,
         .animation = true,
-        .velocite = 0,
+        .velocite = 2,
     },
     .feuille = {
         .max_particules = 3,

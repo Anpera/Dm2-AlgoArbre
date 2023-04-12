@@ -109,13 +109,12 @@ int QuadTree_purge(QuadTree* qt, QuadTreeRoot* node);
  * @param particules 
  * @param qt 
  * @param callback Si différent de NULL,
- * fonction à appeler après chaque ajout, prenant en paramètres
- * la liste des particules, et le quadtree (fonction de
- * dessin par exemple) 
+ * fonction à appeler après chaque ajout, prenant en paramètre
+ * le quadtree (fonction de dessin par exemple) 
  */
 void QuadTree_load_particules_list(
-    const ListeParticules* particules, QuadTree* qt,
-    void (*callback)(const ListeParticules*, const QuadTree*)
+    const TabPoints* particules, QuadTree* qt,
+    void (*callback)(const QuadTree*)
 );
 
 /**
