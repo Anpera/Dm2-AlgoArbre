@@ -36,21 +36,21 @@ int count_bits1(int test){
 void flags(int argc, char* argv[]){
     int opt, options_index = 0;
     static struct option long_options[] = {
-            {"fenetre",  required_argument, 0,  'f' },
-            {"gen",    no_argument, 0,  'g' },
-            {"shape", required_argument, 0, 's'},
-            {"rayon", required_argument, 0, 'r'},
-            {"nbpoints", required_argument, 0, 'n'},
-            {"concentration", required_argument, 0, 'c'},
-            {"progressif", required_argument, 0, 'p'},
-            {"animation", no_argument, 0, 'a'},
-            {"velocite", no_argument, 0, 'v'},
-            {"maxpar",    required_argument, 0,  'm' },
-            {"taillemin",    required_argument, 0,  't' },
-            {0,         0,                 0,  0 }
-        };
+        {"fenetre",       required_argument, 0,  'f' },
+        {"gen",           no_argument, 0,  'g' },
+        {"shape",         required_argument, 0, 's'},
+        {"rayon",         required_argument, 0, 'r'},
+        {"nbpoints",      required_argument, 0, 'n'},
+        {"concentration", required_argument, 0, 'c'},
+        {"progressif",    no_argument, 0, 'p'},
+        {"animation",     no_argument, 0, 'a'},
+        {"velocite",      required_argument, 0, 'v'},
+        {"maxpar",        required_argument, 0,  'm' },
+        {"taillemin",     required_argument, 0,  't' },
+        {0, 0, 0, 0},
+    };
 
-    while ((opt = getopt_long_only(argc, argv, "f:gs:r:n:c:p:av:m:t:", long_options, &options_index)) != -1){
+    while ((opt = getopt_long_only(argc, argv, "agps:f:r:n:c:v:m:t:", long_options, &options_index)) != -1){
         switch (opt){
             case 'f':
                 params.window.width = atoi(optarg);
@@ -72,8 +72,8 @@ void flags(int argc, char* argv[]){
                     params.gen.shape = CERCLE;
 
                 else
-                    printf("Erreur, seul les arguments \"cercle\" et \"carre\" "
-                           "sont acceptés avec le flag -s\n");
+                    fprintf(stderr, "Erreur, seul les arguments \"cercle\" et \"carre\" "
+                                    "sont acceptés avec le flag -s\n");
                 params.gen.enabled = true;
                 break;
 
@@ -99,10 +99,7 @@ void flags(int argc, char* argv[]){
                 break;
 
             case 'p':
-                if (atoi(optarg) == 1)
-                    params.gen.progressif = true;
-                else
-                    params.gen.progressif = false;
+                params.gen.progressif = true;
                 params.gen.enabled = true;
                 break;
 
@@ -124,15 +121,14 @@ void flags(int argc, char* argv[]){
 
             case 't':
                 params.feuille.taille_min = atoi(optarg);
-                    if (count_bits1(params.feuille.taille_min) != 1)
-                        params.feuille.taille_min = 8;
+                if (count_bits1(params.feuille.taille_min) != 1)
+                    params.feuille.taille_min = 8;
                 break;
 
             case '?':
-            break;
-
             default:
-            printf("?? getopt returned character code 0%o ??\n", opt);
+                fprintf(stderr, "?? getopt returned character code %d ??\n", opt);
+                exit(EXIT_FAILURE);
         }
     }
 }
