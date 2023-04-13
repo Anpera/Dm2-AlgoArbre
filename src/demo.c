@@ -23,9 +23,10 @@ static Parameters params = {
         .velocite = 0,
     },
     .feuille = {
-        .max_particules = 5,
+        .max_particules = 3,
         .taille_min = 8,
     },
+    .nb_clicks = 10,
 };
 
 int count_bits1(int test){

@@ -31,7 +31,7 @@ void GFX_draw_quadtree_grid(const QuadTreeRoot tree, bool draw_particules) {
     GFX_draw_quadtree_grid(tree->bg, draw_particules);
 }
 
-void GFX_animate_quadtree(const ListeParticules* particules, const QuadTree* qt) {
+void GFX_animate_quadtree(const QuadTree* qt) {
     MLV_clear_window(MLV_COLOR_BLACK);
     //MLV_clear_window(MLV_COLOR_GREY20);
     GFX_draw_quadtree_grid(qt->root, true);

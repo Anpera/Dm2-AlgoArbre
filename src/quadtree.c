@@ -1,5 +1,6 @@
 #include "quadtree.h"
 #include "generation.h"
+#include "args.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -26,25 +27,33 @@ static int Quadtree_add_aux(QuadTree* qt, QuadTreeRoot* tree, ListeParticulesEnt
     return 1;
 }
 
-QuadTree QuadTree_init(int carre_taille_min, int max_particules, int taille_fenetre) {
+QuadTree QuadTree_init(Parameters params) {
     QuadTree qt = {
         .len = 0,
     };
 
-    int tab_size = pow(taille_fenetre / carre_taille_min, 2);
+    // int tab_size = pow(params.window.width / params.feuille.taille_min, 2);
+    // 4^0 + 4^1 + 4^2 + 4^3 + 4^n (n = log2(W))
+    int tab_size = (pow(4, (int) log2(params.window.width) + 1) - 1) / 3 + 1;
 
     qt.tab = (QuadTreeNode*) malloc(tab_size * sizeof(QuadTreeNode));
     qt.max_len = tab_size;
-    qt.max_particules = max_particules;
-    qt.taille_min = carre_taille_min;
+    qt.max_particules = params.feuille.max_particules;
+    qt.taille_min = params.feuille.taille_min;
 
-    qt.root = Quadtree_alloc_node(&qt, (Square) {0, 0, taille_fenetre});
+    qt.root = Quadtree_alloc_node(&qt, (Square) {0, 0, params.window.width});
+
+    qt.tab_plist = (TabListeEntryParticules) {
+        .max_len = params.gen.nb_points + params.nb_clicks,
+        .len = 0,
+    };
+    qt.tab_plist.tab = (ListeParticulesEntry*) malloc(qt.tab_plist.max_len * sizeof(ListeParticulesEntry));
 
     return qt;
 }
 
 QuadTreeNode* Quadtree_alloc_node(QuadTree* qt, Square pos) {
-    if (qt->len + 1 == qt->max_len)
+    if (qt->len >= qt->max_len)
         return NULL;
     
     QuadTreeNode* new = &qt->tab[qt->len++];
@@ -114,21 +123,42 @@ int QuadTree_purge(QuadTree* qt, QuadTreeRoot* tree) {
 }
 
 int QuadTree_add(QuadTree* qt, Particule* p) {
-    ListeParticulesEntry* entry = GEN_new_particule_pointer(p);
+    ListeParticulesEntry* entry = TabListeEntryParticules_alloc_cellule(&qt->tab_plist, p);
+    if (!entry)
+        return 0;
+    
     Quadtree_add_aux(qt, &qt->root, entry);
 
     return 1;
 }
 
 void QuadTree_load_particules_list(
-    const ListeParticules* particules, QuadTree* qt,
-    void (*callback)(const ListeParticules*, const QuadTree*)
+    const TabPoints* particules, QuadTree* qt,
+    void (*callback)(const QuadTree*)
 ) {
-    struct ListeParticulesEntry *items;
-    STAILQ_FOREACH(items, particules, entries){
-        QuadTree_add(qt, items->p);
-        if (callback){
-            callback(particules, qt);
+    for (int i = 0; i < particules->len; ++i) {
+        QuadTree_add(qt, &particules->tab[i]);
+        if (callback) {
+            callback(qt);
         }
     }
+}
+
+ListeParticulesEntry* TabListeEntryParticules_alloc_cellule(
+    TabListeEntryParticules* tab_plist, Particule* p
+) {
+    ListeParticulesEntry *new_entry;
+    if (tab_plist->len >= tab_plist->max_len)
+        return NULL;
+
+    new_entry = &(tab_plist->tab[tab_plist->len++]);
+    new_entry->p = p;
+    return new_entry;
+}
+
+void Quadtree_reset(QuadTree* qt) {
+    qt->len = 0;
+    qt->root = Quadtree_alloc_node(
+        qt, qt->root->pos);
+    qt->tab_plist.len = 0;
 }

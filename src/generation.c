@@ -83,15 +83,15 @@ Particule GEN_formule_carre_croissant(
 }
 
 int GEN_points_formule(
-    ListeParticules* points,
+    TabPoints* points,
     int largeur, int hauteur,
     int nb_points, int r_max, double concentration, bool tri,
     int velocite,
-    Particule (*formule) (int, int, int, int, int, double)
+    GENFormule formule
 ) {
     PointDistance* tab_points = NULL;
     int offset_x = largeur / 2, offset_y = hauteur / 2;
-    STAILQ_INIT(points);
+
     if (tri) {
         tab_points = malloc(nb_points * sizeof(PointDistance));
         if (!tab_points)
@@ -105,40 +105,35 @@ int GEN_points_formule(
             r_max, concentration
         );
         p.vect = gen_vitesse(velocite);
-        // Si on s'attend à trier, on les ajoute à un tableau
+        // Si on s'attend à trier, on les ajoute à un tableau de distance temporaire
         if (tri) {
             double dist = GEN_distance(p.x, p.y, offset_x, offset_y);
             PointDistance p_dist = {p, dist};
             tab_points[i] = p_dist;
         }
-        else { // Sinon on ajoute directement dans la liste
-            ListeParticulesEntry* new_entry = GEN_new_particule(p);
-            if (!new_entry)
-                return 0;
-            STAILQ_INSERT_TAIL(points, new_entry, entries);
+        else { // Sinon on ajoute directement dans le tableau
+            TABPoints_ajoute(points, p);
         }
     }
     if (tri) {
-        GEN_sort_tab_PointDistance_to_ListeParticules(tab_points, nb_points, points);
+        GEN_sort_tab_PointDistance_to_TabPoints(tab_points, nb_points, points);
     }
     return 1;
 }
 
-void GEN_sort_tab_PointDistance_to_ListeParticules(
-    PointDistance* tab_points, int size, ListeParticules* points
+void GEN_sort_tab_PointDistance_to_TabPoints(
+    PointDistance* tab_points, int size, TabPoints* points
 ) {
     qsort(tab_points, size, sizeof(PointDistance), GEN_compare_point_distance);
     for (int i = 0; i < size; ++i) {
-        ListeParticulesEntry* new_entry = GEN_new_particule(tab_points[i].p);
-        STAILQ_INSERT_TAIL(points, new_entry, entries);
+        TABPoints_ajoute(points, tab_points[i].p);
     }
     free(tab_points);
 }
 
-void GEN_choose_generation(Parameters params, ListeParticules* points) {
-    STAILQ_INIT(points);
-
+void GEN_choose_generation(Parameters params, TabPoints* points) {
     Particule (*formule) (int, int, int, int, int, double);
+
     if (params.gen.shape == CERCLE) {
         formule = GEN_formule_cercle;
     }
@@ -162,42 +157,6 @@ void GEN_choose_generation(Parameters params, ListeParticules* points) {
     );*/
 }
 
-ListeParticulesEntry* GEN_new_particule(Particule p) {
-    Particule* new_p = malloc(sizeof(Particule));
-    ListeParticulesEntry* new_vtx = malloc(sizeof(ListeParticulesEntry));
-
-    if (!new_p || !new_vtx)
-        return NULL;
-
-    *new_p = p;
-    new_vtx->p = new_p;
-
-    return new_vtx;
-}
-
-ListeParticulesEntry* GEN_new_particule_pointer(Particule* p) {
-    ListeParticulesEntry* new_vtx = malloc(sizeof(ListeParticulesEntry));
-
-    if (!new_vtx)
-        return NULL;
-
-    new_vtx->p = p;
-
-    return new_vtx;
-}
-
-
-Particule* GEN_add_user_particule(ListeParticules* particules, Particule p) {
-    ListeParticulesEntry* new;
-    new = GEN_new_particule(p);
-
-    if (!new) return NULL;
-
-    STAILQ_INSERT_TAIL(particules, new, entries);
-
-    return new->p;
-}
-
 void GEN_free_ListParticules(ListeParticules* lst, bool free_points) {
     ListeParticulesEntry *vtx = STAILQ_FIRST(lst), *vtx2;
 
@@ -209,4 +168,30 @@ void GEN_free_ListParticules(ListeParticules* lst, bool free_points) {
         vtx = vtx2;
     }
     STAILQ_INIT(lst);
+}
+
+int TABPoints_init_tabpoints(TabPoints* points, int max_len) {
+    *points = (TabPoints) {
+        .len = 0,
+        .max_len = max_len,
+    };
+
+    if (!(points->tab = malloc(points->max_len * sizeof(Particule))))
+        return 0;
+
+    return 1;
+}
+
+Particule* TABPoints_ajoute(TabPoints* points, Particule a) {
+    if (points->len >= points->max_len)
+        return NULL;
+
+    points->tab[points->len++] = a;
+
+    return &points->tab[points->len - 1];
+}
+
+void TABPoints_free(TabPoints* points) {
+    free(points->tab);
+    points->tab = NULL;
 }

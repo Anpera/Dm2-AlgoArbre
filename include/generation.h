@@ -13,6 +13,8 @@ typedef struct {
     double dist;
 } PointDistance;
 
+typedef Particule (*GENFormule) (int, int, int, int, int, double);
+
 /**
  * @brief Renvoie un nombre aléatoire entre 0 et n.
  * 
@@ -49,20 +51,20 @@ int random_direction();
  * @brief Génère un ensemble de points selon un mode de
  * génération fournie par une fonction en paramètre.
  * 
- * @param points Adresse de la liste de points où les points seront stockés.
+ * @param points Adresse du tableau de points où les points seront stockés.
  * @param largeur Largeur de la fenêtre.
  * @param hauteur Hauteur de la fenêtre.
  * @param nb_points Nombre de points à générer.
  * @param r_max Rayon de l'ensemble.
  * @param concentration 
- * @param tri Spécifie si la liste doit être triée en fonction
+ * @param tri Spécifie si le tableau doit être trié en fonction
  * de la distance des points par rapport à l'origine du cercle.
  * @param formule Fonction à appeler pour générer un point d'un ensemble.
  * @return 0 si une erreur est survenue pendant l'allocation des points,
  * 1 sinon.
  */
 int GEN_points_formule(
-    ListeParticules* points,
+    TabPoints* points,
     int largeur, int hauteur,
     int nb_points, int r_max, double concentration, bool tri,
     int velocite,
@@ -95,45 +97,20 @@ int GEN_compare_point_distance(const void* a, const void* b);
  * 
  * @param tab_points Tableau de PointDistance
  * @param size Taille du tableau
- * @param points Adresse de la ListeParticule où seront copiés les points
+ * @param points Adresse du tableau de particules où seront copiés les points
  */
-void GEN_sort_tab_PointDistance_to_ListeParticules(
-    PointDistance* tab_points, int size, ListeParticules* points);
+void GEN_sort_tab_PointDistance_to_TabPoints(
+    PointDistance* tab_points, int size, TabPoints* points);
 
 
 /**
- * @brief Renvoie une liste de points générée selon
+ * @brief Génère des particules dans le tableau ``points`` selon
  * les paramètres demandés par l'utilisateur.
- * 
+ * Le tableau doit être initialisé à l'avance
  * @param params Paramètres
- * @param points Liste de points de destination
+ * @param points Tableau de points de destination
  */
-void GEN_choose_generation(Parameters params, ListeParticules* points);
-
-/**
- * @brief Alloue une entrée de ListeParticule et une particule en mémoire.
- * 
- * @param point Particule à allouer.
- * @return Adresse de l'entrée créé, NULL en cas d'erreur.
- */
-ListeParticulesEntry* GEN_new_particule(Particule p);
-
-/**
- * @brief Alloue une entrée de ListeParticule.
- * 
- * @param point Adresse du point à affecter au vertex.
- * @return Adresse de l'entrée créé, NULL en cas d'erreur.
- */
-ListeParticulesEntry* GEN_new_particule_pointer(Particule* p);
-
-/**
- * @brief Ajoute une particule de l'utilisateur dans la liste
- * 
- * @param particules 
- * @param p 
- * @return Particule* Adresse de la particule allouée
- */
-Particule* GEN_add_user_particule(ListeParticules* particules, Particule p);
+void GEN_choose_generation(Parameters params, TabPoints* points);
 
 /**
  * @brief Libére la mémoire allouée pour une liste de particules.
@@ -188,5 +165,30 @@ Particule GEN_formule_cercle(
     int largeur, int hauteur,
     int i, int nb_points, int r_max, double concentration
 );
+
+/**
+ * @brief Initialise un tableau de points.
+ * 
+ * @param points 
+ * @param max_len 
+ * @return int 
+ */
+int TABPoints_init_tabpoints(TabPoints* points, int max_len);
+
+/**
+ * @brief Ajoute une particule au tableau de particules,
+ * et renvoie son adresse dans le tableau.
+ * @param points 
+ * @param a 
+ * @return int 
+ */
+Particule* TABPoints_ajoute(TabPoints* points, Particule a);
+
+/**
+ * @brief Libère un tableau de points.
+ * 
+ * @param points 
+ */
+void TABPoints_free(TabPoints* points);
 
 #endif

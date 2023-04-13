@@ -2,6 +2,7 @@
 #define QUADTREE_INCLUDED
 
 #include "types.h"
+#include "args.h"
 #include <stdbool.h>
 
 typedef enum {
@@ -25,13 +26,24 @@ typedef struct QuadTreeNode {
     int nbp; /*< Nombre de particules sous le secteur, pas uniquement dans le noeud */
 } QuadTreeNode, *QuadTreeRoot;
 
-typedef struct QuadTree {
-    struct QuadTreeNode* tab;
-    QuadTreeRoot root;
+typedef struct TabListeEntryParticules {
+    ListeParticulesEntry* tab;
     int len;
     int max_len;
-    int max_particules;
-    int taille_min;
+} TabListeEntryParticules;
+
+typedef struct QuadTree {
+    QuadTreeRoot root;  /*< Racine de l'arbre */
+    int max_particules; /*< Nombre maximum de particules dans un noeud */
+    int taille_min;     /*< Taille minimale d'un noeud */
+    
+    // Préallocation des noeuds de l'arbre
+    struct QuadTreeNode* tab;
+    int len; /*< Nombre de noeud actuellement alloué */
+    int max_len; /** Nombre de noeuds réellement alloué en mémoire*/
+    
+    // Préallocation des cellules des sous-listes
+    TabListeEntryParticules tab_plist;
 } QuadTree;
 
 #define DIVIDED_NODE(node) ((node)->hg != NULL && (node)->hd != NULL && (node)->bd != NULL && (node)->bg != NULL)
@@ -40,12 +52,9 @@ typedef struct QuadTree {
  * @brief Initialise un quadtree.
  * Préalloue un tableau qui contiendra tous les noeuds de l'arbre.
  * 
- * @param carre_taille_min Taille minimale d'un carré du Quadtree (puissance de 4)
- * @param max_particules Nombre maximum de particules dans une feuille du quadtree
- * @param taille_fenetre Taille de la fenêtre (puissance de 4)
  * @return QuadTree 
  */
-QuadTree QuadTree_init(int carre_taille_min, int max_particules, int taille_fenetre);
+QuadTree QuadTree_init(Parameters params);
 
 /**
  * @brief Alloue un noeud depuis le tableau préalloué
@@ -94,19 +103,36 @@ int QuadTree_add(QuadTree* qt, Particule* p);
 int QuadTree_purge(QuadTree* qt, QuadTreeRoot* node);
 
 /**
+ * @brief Réinitialise le Quadtree.
+ * 
+ * @param qt 
+ */
+void Quadtree_reset(QuadTree* qt);
+
+/**
  * @brief Ajoute sucessivement les particules de la liste
  * au Quadtree
  * 
  * @param particules 
  * @param qt 
  * @param callback Si différent de NULL,
- * fonction à appeler après chaque ajout, prenant en paramètres
- * la liste des particules, et le quadtree (fonction de
- * dessin par exemple) 
+ * fonction à appeler après chaque ajout, prenant en paramètre
+ * le quadtree (fonction de dessin par exemple) 
  */
 void QuadTree_load_particules_list(
-    const ListeParticules* particules, QuadTree* qt,
-    void (*callback)(const ListeParticules*, const QuadTree*)
+    const TabPoints* particules, QuadTree* qt,
+    void (*callback)(const QuadTree*)
 );
+
+/**
+ * @brief Alloue une cellule de liste depuis le tableau préalloué
+ * tab_plist, et réalloue son espace si nécessaire.
+ * 
+ * @param tab_plist 
+ * @param p 
+ * @return ListeParticulesEntry* 
+ */
+ListeParticulesEntry* TabListeEntryParticules_alloc_cellule(
+    TabListeEntryParticules* tab_plist, Particule* p);
 
 #endif
