@@ -23,10 +23,10 @@ static Parameters params = {
         .velocite = 0,
     },
     .feuille = {
-        .max_particules = 3,
+        .max_particules = 5,
         .taille_min = 8,
     },
-    .nb_clicks = 10,
+    .nb_clicks = 50,
 };
 
 int count_bits1(int test){
@@ -53,11 +53,12 @@ void flags(int argc, char* argv[]){
     while ((opt = getopt_long_only(argc, argv, "agps:f:r:n:c:v:m:t:", long_options, &options_index)) != -1){
         switch (opt){
             case 'f':
-                params.window.width = atoi(optarg);
-                if (count_bits1(params.window.width) == 1)
-                    params.window.height = params.window.width;
-                else
-                    params.window.width = 512;
+                if ((params.window.width = atoi(optarg)) <= 0 ||
+                     count_bits1(params.window.width) != 1) {
+                    fprintf(stderr, "La taille de la fenêtre doit être strictement positive, "
+                                    "et être une puissance de 2.\n");
+                    exit(EXIT_FAILURE);
+                }
                 break;
 
             case 'g':
@@ -71,30 +72,32 @@ void flags(int argc, char* argv[]){
                 else if (strcmp(optarg, "cercle") == 0)
                     params.gen.shape = CERCLE;
 
-                else
+                else {
                     fprintf(stderr, "Erreur, seul les arguments \"cercle\" et \"carre\" "
                                     "sont acceptés avec le flag -s\n");
+                    exit(EXIT_FAILURE);
+                }
                 params.gen.enabled = true;
                 break;
 
             case 'r':
-                params.gen.rayon = atoi(optarg);
-                if (!params.gen.rayon)
-                    params.gen.rayon = 250;
+                if ((params.gen.rayon = atoi(optarg)) <= 0) {
+                    fprintf(stderr, "Veuillez entrer un rayon strictement positif.\n");
+                    exit(EXIT_FAILURE);
+                }
                 params.gen.enabled = true;
                 break;
 
             case 'n':
-                params.gen.nb_points = atoi(optarg);
-                if (!params.gen.nb_points)
-                    params.gen.nb_points = 1250;
+                if ((params.gen.nb_points = atoi(optarg)) <= 0) {
+                    fprintf(stderr, "Veuillez demander au minimum 1 points à générer.\n");
+                    exit(EXIT_FAILURE);
+                }
                 params.gen.enabled = true;
                 break;
 
             case 'c':
                 params.gen.concentration = atof(optarg);
-                if (!params.gen.concentration)
-                    params.gen.concentration = 1.8;
                 params.gen.enabled = true;
                 break;
 
@@ -110,19 +113,23 @@ void flags(int argc, char* argv[]){
 
             case 'v':
                 params.gen.velocite = atoi(optarg);
-                params.gen.enabled = true;
                 break;
 
             case 'm':
-                params.feuille.max_particules = atoi(optarg);
-                if (params.feuille.max_particules == 0)
-                    params.feuille.max_particules = 5;
+                if ((params.feuille.max_particules = atoi(optarg)) <= 0) {
+                    fprintf(stderr, "Le nombre maximum de particules dans un noeud, "
+                                    "doit être strictement positif.\n");
+                    exit(EXIT_FAILURE);
+                }
                 break;
 
             case 't':
-                params.feuille.taille_min = atoi(optarg);
-                if (count_bits1(params.feuille.taille_min) != 1)
-                    params.feuille.taille_min = 8;
+                if ((params.feuille.taille_min = atoi(optarg)) <= 0 ||
+                     count_bits1(params.feuille.taille_min) != 1) {
+                    fprintf(stderr, "La taille minimum d'un noeud, doit être positive, "
+                                    "et être une puissance de 2.\n");
+                    exit(EXIT_FAILURE);
+                }
                 break;
 
             case '?':
