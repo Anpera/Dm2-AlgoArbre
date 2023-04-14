@@ -53,7 +53,7 @@ void flags(int argc, char* argv[]){
     while ((opt = getopt_long_only(argc, argv, "agps:f:r:n:c:v:m:t:", long_options, &options_index)) != -1){
         switch (opt){
             case 'f':
-                if ((params.window.width = atoi(optarg)) <= 0 ||
+                if ((params.window.width = ((params.window.height) = atoi(optarg))) <= 0 ||
                      count_bits1(params.window.width) != 1) {
                     fprintf(stderr, "La taille de la fenêtre doit être strictement positive, "
                                     "et être une puissance de 2.\n");
