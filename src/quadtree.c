@@ -1,6 +1,7 @@
 #include "quadtree.h"
 #include "generation.h"
 #include "args.h"
+#include "utils.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -34,7 +35,11 @@ QuadTree QuadTree_init(Parameters params) {
 
     // int tab_size = pow(params.window.width / params.feuille.taille_min, 2);
     // 4^0 + 4^1 + 4^2 + 4^3 + 4^n (n = log2(W))
-    int tab_size = (pow(4, (int) log2(params.window.width) + 1) - 1) / 3 + 1;
+    int tab_size = (
+        (pow4ll(log2ll(params.window.width / params.feuille.taille_min) + 1) - 1) / \
+        (4 - 1) \
+        + 1
+    );
 
     qt.tab = (QuadTreeNode*) malloc(tab_size * sizeof(QuadTreeNode));
     qt.max_len = tab_size;

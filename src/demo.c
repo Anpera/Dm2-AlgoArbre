@@ -6,6 +6,7 @@
 #include <string.h>
 #include "args.h"
 #include "scenes.h"
+#include "utils.h"
 
 static Parameters params = {
     .window = {
@@ -28,10 +29,6 @@ static Parameters params = {
     },
     .nb_clicks = 50,
 };
-
-int count_bits1(int test){
-    return __builtin_popcountll(test);
-}
 
 void flags(int argc, char* argv[]){
     int opt, options_index = 0;
