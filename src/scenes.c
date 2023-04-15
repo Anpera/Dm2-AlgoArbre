@@ -48,7 +48,7 @@ void SCN_Quadtree(Parameters params) {
         GEN_choose_generation(params, &particules);
         QuadTree_load_particules_list(
             &particules, &qt,
-            params.gen.animation ? GFX_animate_quadtree : NULL
+            params.gen.pas_a_pas ? GFX_animate_quadtree : NULL
         );
     }
 
