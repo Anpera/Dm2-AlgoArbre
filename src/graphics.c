@@ -16,12 +16,14 @@ void GFX_draw_quadtree_grid(const QuadTreeRoot tree, bool draw_particules) {
     if (!(tree))
         return;
 
+    Square sq = tree->pos;
     if (draw_particules && tree->len_plist > 0) {
+        MLV_draw_filled_rectangle(sq.x, sq.y, sq.size, sq.size, MLV_COLOR_GREY30);
+        MLV_draw_rectangle(sq.x, sq.y, sq.size, sq.size, MLV_COLOR_CYAN);
         GFX_draw_liste_particules(&tree->plist);
     }
 
-    Square sq = tree->pos;
-    MLV_draw_rectangle(sq.x, sq.y, sq.size, sq.size, MLV_COLOR_ORANGE);
+    //MLV_draw_rectangle(sq.x, sq.y, sq.size, sq.size, MLV_COLOR_ORANGE);
     GFX_draw_quadtree_grid(tree->hg, draw_particules);
     GFX_draw_quadtree_grid(tree->hd, draw_particules);
     GFX_draw_quadtree_grid(tree->bd, draw_particules);
