@@ -16,11 +16,11 @@ static Parameters params = {
     .gen = {
         .enabled = false,
         .shape = CERCLE,
-        .rayon = 250,
-        .nb_points = 1250,
+        .rayon = 0,
+        .nb_points = 0,
         .concentration = 1.8,
-        .progressif = false,
-        .animation = false,
+        .tri = false,
+        .pas_a_pas = false,
         .velocite = 0,
     },
     .feuille = {
@@ -33,21 +33,21 @@ static Parameters params = {
 void flags(int argc, char* argv[]){
     int opt, options_index = 0;
     static struct option long_options[] = {
-        {"fenetre",       required_argument, 0,  'f' },
-        {"gen",           no_argument, 0,  'g' },
-        {"shape",         required_argument, 0, 's'},
-        {"rayon",         required_argument, 0, 'r'},
+        {"fenetre",       required_argument, 0, 'f'},
+        {"maxpar",        required_argument, 0, 'k'},
+        {"taillemin",     required_argument, 0, 'm'},
+        {"nbclicks",      required_argument, 0, 's'},
         {"nbpoints",      required_argument, 0, 'n'},
+        {"forme",         required_argument, 0, 'g'},
+        {"rayon",         required_argument, 0, 'r'},
         {"concentration", required_argument, 0, 'c'},
-        {"progressif",    no_argument, 0, 'p'},
-        {"animation",     no_argument, 0, 'a'},
         {"velocite",      required_argument, 0, 'v'},
-        {"maxpar",        required_argument, 0,  'm' },
-        {"taillemin",     required_argument, 0,  't' },
+        {"tri",           no_argument,       0, 't'},
+        {"pas-a-pas",     no_argument,       0, 'p'},
         {0, 0, 0, 0},
     };
 
-    while ((opt = getopt_long_only(argc, argv, "agps:f:r:n:c:v:m:t:", long_options, &options_index)) != -1){
+    while ((opt = getopt_long(argc, argv, "tpf:k:m:s:n:g:r:c:v:", long_options, &options_index)) != -1){
         switch (opt){
             case 'f':
                 if ((params.window.width = ((params.window.height) = atoi(optarg))) <= 0 ||
@@ -59,10 +59,6 @@ void flags(int argc, char* argv[]){
                 break;
 
             case 'g':
-                params.gen.enabled = true;
-                break;
-
-            case 's':
                 if (strcmp(optarg, "carre") == 0)
                     params.gen.shape = CARRE;
 
@@ -71,10 +67,9 @@ void flags(int argc, char* argv[]){
 
                 else {
                     fprintf(stderr, "Erreur, seul les arguments \"cercle\" et \"carre\" "
-                                    "sont acceptés avec le flag -s\n");
+                                    "sont acceptés avec le flag -%c\n", opt);
                     exit(EXIT_FAILURE);
                 }
-                params.gen.enabled = true;
                 break;
 
             case 'r':
@@ -82,7 +77,6 @@ void flags(int argc, char* argv[]){
                     fprintf(stderr, "Veuillez entrer un rayon strictement positif.\n");
                     exit(EXIT_FAILURE);
                 }
-                params.gen.enabled = true;
                 break;
 
             case 'n':
@@ -92,27 +86,31 @@ void flags(int argc, char* argv[]){
                 }
                 params.gen.enabled = true;
                 break;
+            
+            case 's':
+                if ((params.nb_clicks = atoi(optarg)) <= 0) {
+                    fprintf(stderr, "Veuillez demander au minimum 1 clic.\n");
+                    exit(EXIT_FAILURE);
+                }
+                break;
 
             case 'c':
                 params.gen.concentration = atof(optarg);
-                params.gen.enabled = true;
+                break;
+
+            case 't':
+                params.gen.tri = true;
                 break;
 
             case 'p':
-                params.gen.progressif = true;
-                params.gen.enabled = true;
-                break;
-
-            case 'a':
-                params.gen.animation = true;
-                params.gen.enabled = true;
+                params.gen.pas_a_pas = true;
                 break;
 
             case 'v':
                 params.gen.velocite = atoi(optarg);
                 break;
 
-            case 'm':
+            case 'k':
                 if ((params.feuille.max_particules = atoi(optarg)) <= 0) {
                     fprintf(stderr, "Le nombre maximum de particules dans un noeud, "
                                     "doit être strictement positif.\n");
@@ -120,7 +118,7 @@ void flags(int argc, char* argv[]){
                 }
                 break;
 
-            case 't':
+            case 'm':
                 if ((params.feuille.taille_min = atoi(optarg)) <= 0 ||
                      count_bits1(params.feuille.taille_min) != 1) {
                     fprintf(stderr, "La taille minimum d'un noeud, doit être positive, "
@@ -134,6 +132,8 @@ void flags(int argc, char* argv[]){
                 fprintf(stderr, "?? getopt returned character code %d ??\n", opt);
                 exit(EXIT_FAILURE);
         }
+        if (params.gen.rayon == 0)
+            params.gen.rayon = (params.window.width - 5) / 2;
     }
 }
 

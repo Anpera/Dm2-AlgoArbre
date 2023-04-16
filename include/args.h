@@ -9,8 +9,8 @@ typedef struct {
         int nb_points;        /*< Nombre de points à générer */
         int rayon;            /*< Rayon de la génération */
         double concentration; /*< Effet de concentration pour le mode cercle */
-        int progressif;       /*< true : Trie les points générés par rapport à leur distance au centre */
-        int animation;        /*< true : Redessine à chaque ajout */
+        int tri;              /*< true : Trie les points générés par rapport à leur distance au centre */
+        int pas_a_pas;        /*< true : Redessine à chaque ajout */
         int velocite;         /*< Vitesse de déplacement */
     } gen;
     struct {
