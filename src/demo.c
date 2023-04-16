@@ -30,6 +30,10 @@ static Parameters params = {
     .nb_clicks = 50,
 };
 
+void aled(){
+    printf("Ah bah bravo t'as fait de la merde jean-kevin >:(");
+}
+
 void flags(int argc, char* argv[]){
     int opt, options_index = 0;
     static struct option long_options[] = {
