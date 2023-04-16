@@ -58,6 +58,10 @@ mrproper: clean
 	rm -f $(BUILD_DIR)/$(EXEC)
 	rm -f $(NOM_ZIP)
 
+doc: $(SOURCES) $(HEADERS) Doxyfile
+	@mkdir --parents doc
+	doxygen
+
 zip:
 	zip -FSr $(NOM_ZIP) $(CONTENU_ZIP)
 

@@ -2,3 +2,5 @@
 tmp/
 build/
 .vscode
+callgrind*
+doc/

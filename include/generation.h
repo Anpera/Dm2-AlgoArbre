@@ -13,6 +13,11 @@
 #include "velocite.h"
 #include "args.h"
 
+/**
+ * @brief Associe une particule à sa distance
+ * du centre de la fenêtre.
+ * 
+ */
 typedef struct {
     Particule p;
     double dist;

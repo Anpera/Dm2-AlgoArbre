@@ -21,35 +21,46 @@ typedef struct Square {
     int size;
 } Square;
 
+/**
+ * @brief Noeud d'un Quadtree.
+ * 
+ */
 typedef struct QuadTreeNode {
-    struct QuadTreeNode* hg;
-    struct QuadTreeNode* hd;
-    struct QuadTreeNode* bd;
-    struct QuadTreeNode* bg;
-    Square pos;
-    ListeParticules plist; /*< Liste des particules (max 10) */
-    int len_plist;
-    int nbp; /*< Nombre de particules sous le secteur, pas uniquement dans le noeud */
+    struct QuadTreeNode *hg, *hd, *bd, *bg; /**< Pointeurs sur les noeuds enfants */
+    Square pos;            /**< Position et taille du noeud */
+    ListeParticules plist; /**< Liste des particules */
+    int len_plist;         /**< Nombre de particules dans le noeud */
+    int nbp;               /**< Nombre de particules sous le secteur, pas uniquement dans le noeud */
 } QuadTreeNode, *QuadTreeRoot;
 
+/**
+ * @brief Tableau de cellules de liste de particules.
+ * Permet la préallocation des cellules, afin d'éviter
+ * les appels de malloc/free sucessifs.
+ */
 typedef struct TabListeEntryParticules {
-    ListeParticulesEntry* tab;
-    int len;
-    int max_len;
+    ListeParticulesEntry* tab; /**< Tableau de cellules préalloueés */
+    int len;                   /**< Nombre de cellules utilisées */
+    int max_len;               /**< Nombre de cellules préallouées */
 } TabListeEntryParticules;
 
+/**
+ * @brief Structure contenant les paramètres du Quadtree,
+ * et son tableau de cellules de liste préalloué.
+ * 
+ */
 typedef struct QuadTree {
-    QuadTreeRoot root;  /*< Racine de l'arbre */
-    int max_particules; /*< Nombre maximum de particules dans un noeud */
-    int taille_min;     /*< Taille minimale d'un noeud */
-    
+    QuadTreeRoot root;  /**< Racine de l'arbre */
+    int max_particules; /**< Nombre maximum de particules dans un noeud */
+    int taille_min;     /**< Taille minimale d'un noeud */
+
     // Préallocation des noeuds de l'arbre
     struct QuadTreeNode* tab;
-    int len; /*< Nombre de noeud actuellement alloué */
-    int max_len; /** Nombre de noeuds réellement alloué en mémoire*/
+    int len;            /**< Nombre de noeud actuellement alloué */
+    int max_len;        /**< Nombre de noeuds réellement alloué en mémoire*/
     
     // Préallocation des cellules des sous-listes
-    TabListeEntryParticules tab_plist;
+    TabListeEntryParticules tab_plist; /**< Tableau de cellules de liste prélloué */
 } QuadTree;
 
 #define DIVIDED_NODE(node) ((node)->hg != NULL && (node)->hd != NULL && (node)->bd != NULL && (node)->bg != NULL)
