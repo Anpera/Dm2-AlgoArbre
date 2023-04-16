@@ -1,8 +1,11 @@
 #ifndef H_UI
 #define H_UI
+
+#include <stdio.h>
 #include <MLV/MLV_all.h>
 #include <stdbool.h>
-#include "Grille.h"
+
+#include "grille.h"
 
 /**
  * @struct MLV_Ev

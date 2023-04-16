@@ -2,6 +2,7 @@
 #define TYPES_INCLUDED
 
 #include <sys/queue.h>
+
 #include "velocite.h"
 
 typedef struct Particule {

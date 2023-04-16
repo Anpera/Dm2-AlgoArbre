@@ -1,10 +1,4 @@
 #include "quadtree.h"
-#include "generation.h"
-#include "args.h"
-#include "utils.h"
-#include <math.h>
-#include <stdlib.h>
-#include <stdbool.h>
 
 static int Quadtree_add_aux(QuadTree* qt, QuadTreeRoot* tree, ListeParticulesEntry* p) {
     if (!Square_contains_point((*tree)->pos, *p->p))

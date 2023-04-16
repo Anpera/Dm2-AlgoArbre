@@ -1,14 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <MLV/MLV_all.h>
 #include "scenes.h"
-#include "UI.h"
-#include "graphics.h"
-#include "generation.h"
-#include "quadtree.h"
 
-void applique_vit(Parameters params, TabPoints *particules){
+/**
+ * @brief   Applique la vitesse entré en paramètre
+ *          à chaque point de la liste des particules
+ *          et gère les collisions avec le bord de l'écran
+ * 
+ * @param params        Paramètres d'éxécution comprenant
+ *                      la vitesse
+ * @param particules    Liste de points
+ */
+static void applique_vit(Parameters params, TabPoints *particules){
     Particule* p;
     for (int i = 0; i < particules->len; i++) {
         p = &particules->tab[i];
@@ -18,9 +19,6 @@ void applique_vit(Parameters params, TabPoints *particules){
             
             invertVect(&p->vect, 0);
             p->x += p->vect.anglex;
-
-            // printf("x : %d ", p->x);
-            // printf("y : %d\n", p->y);
         }
         
         if (p->y + p->vect.angley >= params.window.height ||
@@ -28,8 +26,6 @@ void applique_vit(Parameters params, TabPoints *particules){
             
             invertVect(&p->vect, 1);
             p->y += p->vect.angley;
-            // printf("x : %d ", p->x);
-            // printf("y : %d\n", p->y);
         }
 
         p->x += p->vect.anglex;

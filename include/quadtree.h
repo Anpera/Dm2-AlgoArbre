@@ -1,9 +1,15 @@
 #ifndef QUADTREE_INCLUDED
 #define QUADTREE_INCLUDED
 
-#include "types.h"
-#include "args.h"
+#include <math.h>
 #include <stdbool.h>
+#include <stdlib.h>
+
+#include "args.h"
+#include "generation.h"
+#include "types.h"
+#include "utils.h"
+
 
 typedef enum {
     HAUT_GAUCHE, HAUT_DROIT,

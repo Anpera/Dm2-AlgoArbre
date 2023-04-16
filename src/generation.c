@@ -1,13 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <math.h>
-#include <time.h>
-#include <sys/queue.h>
 #include "generation.h"
-#include "types.h"
-#include "velocite.h"
-
 
 inline double rand_double(double n) {
     return (double)rand() / (double)(RAND_MAX / n);

@@ -17,7 +17,7 @@ static Parameters params = {
         .enabled = false,
         .shape = CERCLE,
         .rayon = 0,
-        .nb_points = 0,
+        .nb_points = 250,
         .concentration = 1.8,
         .tri = false,
         .pas_a_pas = false,
@@ -70,6 +70,7 @@ void flags(int argc, char* argv[]){
                                     "sont acceptés avec le flag -%c\n", opt);
                     exit(EXIT_FAILURE);
                 }
+                params.gen.enabled = true;
                 break;
 
             case 'r':

@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <MLV/MLV_all.h>
-#include <stdbool.h>
 #include "UI.h"
-#include "grille.h"
+
 
 #define CHUCK_SIZE 5
 

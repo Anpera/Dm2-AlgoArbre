@@ -1,6 +1,10 @@
 #ifndef GRAPHICS_INCLUDED
 #define GRAPHICS_INCLUDED
 
+#include "types.h"
+#include <MLV/MLV_all.h>
+#include <sys/queue.h>
+
 #include "quadtree.h"
 
 /**

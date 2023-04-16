@@ -1,12 +1,17 @@
 #ifndef GENERATION_INCLUDED
 #define GENERATION_INCLUDED
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
+#include <time.h>
+#include <sys/queue.h>
 #include <MLV/MLV_color.h>
-#include "args.h"
+
 #include "types.h"
 #include "velocite.h"
-
+#include "args.h"
 
 typedef struct {
     Particule p;

@@ -27,7 +27,4 @@ typedef struct {
 
 } Parameters;
 
-void print_help(void);
-Parameters parse_args(int argc, char *argv[]);
-
 #endif
