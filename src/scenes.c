@@ -53,6 +53,10 @@ void SCN_Quadtree(Parameters params) {
     }
 
     while (1) {
+        if (params.feuille.velocite){
+            Quadtree_reset(&qt);
+            QuadTree_load_particules_list(&particules, &qt, NULL);
+        }
         GFX_animate_quadtree(&qt);
         applique_vit(params, &particules);
         ev = SCN_wait_ev();
@@ -63,7 +67,7 @@ void SCN_Quadtree(Parameters params) {
         else if (IS_CLICK(ev)) {
             if (!(point = TABPoints_ajoute(
                 &particules,
-                (Particule) {.x = ev.x, .y = ev.y, .vect = gen_vitesse(params.gen.velocite)}
+                (Particule) {.x = ev.x, .y = ev.y, .vect = gen_vitesse(params.feuille.velocite)}
             ))) {
                 fprintf(stderr, "Nombre maximum de points atteint.\n");
                 continue;

@@ -21,11 +21,11 @@ static Parameters params = {
         .concentration = 1.8,
         .tri = false,
         .pas_a_pas = false,
-        .velocite = 0,
     },
     .feuille = {
         .max_particules = 5,
         .taille_min = 8,
+        .velocite = 0,
     },
     .nb_clicks = 50,
 };
@@ -47,7 +47,7 @@ void flags(int argc, char* argv[]){
         {0, 0, 0, 0},
     };
 
-    while ((opt = getopt_long(argc, argv, "tpf:k:m:s:n:g:r:c:v:", long_options, &options_index)) != -1){
+    while ((opt = getopt_long_only(argc, argv, "tpf:k:m:s:n:g:r:c:v:", long_options, &options_index)) != -1){
         switch (opt){
             case 'f':
                 if ((params.window.width = ((params.window.height) = atoi(optarg))) <= 0 ||
@@ -107,7 +107,7 @@ void flags(int argc, char* argv[]){
                 break;
 
             case 'v':
-                params.gen.velocite = atoi(optarg);
+                params.feuille.velocite = atoi(optarg);
                 break;
 
             case 'k':

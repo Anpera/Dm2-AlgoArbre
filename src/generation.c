@@ -149,7 +149,7 @@ void GEN_choose_generation(Parameters params, TabPoints* points) {
         params.window.width, params.window.height,
         params.gen.nb_points, params.gen.rayon,
         params.gen.concentration, params.gen.tri,
-        params.gen.velocite, formule
+        params.feuille.velocite, formule
     );
     /*printf(
         "Animation : %d, Tri : %d\n",
