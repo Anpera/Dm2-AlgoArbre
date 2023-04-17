@@ -31,23 +31,91 @@ static Parameters params = {
 };
 
 void aled(){
-    printf("Ah bah bravo t'as fait de la merde jean-kevin >:(");
+    printf("Bienvenue sur le message d'aide. Vous trouverez ici\n"
+            "une liste exhaustive de tous les arguments utilisables\n"
+            "ainsi que leur instruction d'utilisation.\n"
+            "Ils seront marqués selon la syntaxe suivante :\n\n"
+            "-option_format_long / -option_format_court [parametre]\n\n"
+            "Par exemple, le message \n"
+            "\"-fenetre / -f [int]\" signifie que l'on peut soit\n"
+            "utilisé le flag -fenetre suivit de l'entier, soit le flag\n"
+            "-f suivit du même entier.\n\n");
+
+    printf("-forme / -g [carre/cercle]\n"
+            "Active la génération de particules aléatoires et\n"
+            "définie la forme de la génération.\n"
+            "Seul \"carre\" et \"cercle\" sont acceptés.\n\n");
+
+    printf("-rayon / -r [int]\n"
+            "Définie le rayon de génération aléatoire de particules.\n"
+            "L'entier int doit être strictement positif.\n\n");
+
+    printf("-nbpoints / -n [int]\n"
+            "Définie le nombre de points que générera la génération\n"
+            "aléatoire.\n"
+            "L'entier int doit être strictement positif.\n\n");
+
+    printf("-nbclicks / -s [int]\n"
+            "Définie le nombre de points que l'utilisateur peut générer\n"
+            "manuellement.\n"
+            "L'entier int doit être strictement positif.\n\n");
+
+    printf("-concentration / -c [float]\n"
+            "Définie la concentration des points par rapport au centre\n"
+            "de la génération aléatoire. Une valeur plus élevée donnera\n"
+            "plus de points au centre.\n"
+            "Le nombre à virgule float peut être autant négatif\n"
+            "que compris entre 0 et 1.\n\n");
+
+    printf("-tri / -t\n"
+            "tri les points de la génération aléatoire selon leur\n"
+            "proximité avec le centre de la "
+            "fenêtre.\n\n");
+
+    printf("-pas-a-pas / -p\n"
+            "Montre l'ajout de points de la génération aléatoire et\n"
+            "rafraichit l'affichage à chaque point.\n\n");
+
+    printf("-velocite / -v [int]\n"
+            "Définie une vitesse de déplacement pour tous les points\n"
+            "ajoutés dans le programme, générer aléatoirement ou définie\n"
+            "par l'utilisateur.\n"
+            "L'entier int doit simplement être un entier.\n\n");
+
+    printf("-fenetre / -f [int]\n"
+            "Définie la taille de la fenêtre.\n"
+            "L'entier [int] doit être strictement positive et\n"
+            "être une puissance de 2.\n\n");
+
+    printf("-maxpar / -k [int]\n"
+            "Définie le nombre maximum de particules dans un noeud.\n"
+            "L'entier [int] doit être strictement positive.\n\n");
+        
+    printf("-taillemin / -m [int]\n"
+            "Définie la taille minimale d'un noeud en pixels.\n"
+            "L'entier [int] doit être strictement positive.\n\n");
+
+    printf("Pour déplacer un point, maintenez le clic droit sur un\n"
+        "point et relâchez la souris là où vous voulez déposer le point.\n"
+        "Pour quitter le programme, appuyer sur la touche échap.\n");
 }
 
 void flags(int argc, char* argv[]){
     int opt, options_index = 0;
     static struct option long_options[] = {
         {"fenetre",       required_argument, 0, 'f'},
-        {"maxpar",        required_argument, 0, 'k'},
-        {"taillemin",     required_argument, 0, 'm'},
-        {"nbclicks",      required_argument, 0, 's'},
-        {"nbpoints",      required_argument, 0, 'n'},
         {"forme",         required_argument, 0, 'g'},
         {"rayon",         required_argument, 0, 'r'},
+        {"nbpoints",      required_argument, 0, 'n'},
+        {"nbclicks",      required_argument, 0, 's'},
         {"concentration", required_argument, 0, 'c'},
+        {"maxpar",        required_argument, 0, 'k'},
+        {"taillemin",     required_argument, 0, 'm'},
         {"velocite",      required_argument, 0, 'v'},
         {"tri",           no_argument,       0, 't'},
         {"pas-a-pas",     no_argument,       0, 'p'},
+        {"help",          no_argument,       0, 'h'},
+        {"aled",          no_argument,       0, 'h'},
         {0, 0, 0, 0},
     };
 
@@ -132,9 +200,14 @@ void flags(int argc, char* argv[]){
                 }
                 break;
 
+            case 'h':
+                aled();
+                exit(EXIT_SUCCESS);
+
             case '?':
             default:
                 fprintf(stderr, "?? getopt returned character code %d ??\n", opt);
+                aled();
                 exit(EXIT_FAILURE);
         }
         if (params.gen.rayon == 0)
