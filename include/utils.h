@@ -26,4 +26,10 @@ unsigned short log2ll(unsigned long long int n);
  */
 unsigned long int pow4ll(unsigned short int n);
 
+double distance_euclidienne(int ax, int ay, int bx, int by);
+
+#define ABS(x) (((x) < 0) ? -(x) : (x))
+
+#define CARRE(a) ((a) * (a))
+
 #endif

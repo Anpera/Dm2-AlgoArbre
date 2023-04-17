@@ -33,10 +33,36 @@ static void applique_vit(Parameters params, TabPoints *particules){
     }
 }
 
+/**
+ * @brief Déplace avec un glisser-déposer, un point cliqué dans la fenêtre
+ * 
+ * @param qt Quadtree contenant les points segmentés
+ * @param ev Evènement
+ * @return true Une action glisser-déposer est en cours
+ * @return false L'utilisateur ne déplace actuellement aucun point
+ */
+static bool deplace_point_manuel(const QuadTree* qt, MLV_Ev ev) {
+    static Particule* glisser = NULL;
+    
+    if (IS_RIGHT_CLICK(ev))
+        glisser = Quadtree_search_particule(qt, ev.x, ev.y);
+    
+    if (glisser) {
+        glisser->x = ev.x;
+        glisser->y = ev.y;
+
+        if (ev.state == MLV_RELEASED)
+            glisser = NULL;
+    }
+
+    return !!glisser;
+}
+
 void SCN_Quadtree(Parameters params) {
     TabPoints particules;
     MLV_Ev ev;
     Particule* point;
+    bool glissement = false;
     QuadTree qt = QuadTree_init(params);
     TABPoints_init_tabpoints(&particules, params.gen.nb_points + params.nb_clicks);
 
@@ -49,18 +75,20 @@ void SCN_Quadtree(Parameters params) {
     }
 
     while (1) {
-        if (params.feuille.velocite){
+        if (params.feuille.velocite || glissement) {
             Quadtree_reset(&qt);
             QuadTree_load_particules_list(&particules, &qt, NULL);
         }
         GFX_animate_quadtree(&qt);
         applique_vit(params, &particules);
         ev = SCN_wait_ev();
+
         if (ev.type == MLV_KEY) {
             if (ev.key_btn == MLV_KEYBOARD_ESCAPE)
                 break;
         }
-        else if (IS_CLICK(ev)) {
+
+        else if (IS_LEFT_CLICK(ev)) {
             if (!(point = TABPoints_ajoute(
                 &particules,
                 (Particule) {.x = ev.x, .y = ev.y, .vect = gen_vitesse(params.feuille.velocite)}
@@ -71,8 +99,8 @@ void SCN_Quadtree(Parameters params) {
 
             QuadTree_add(&qt, point);
         }
+        glissement = deplace_point_manuel(&qt, ev);
     }
-
     TABPoints_free(&particules);
 }
 
@@ -81,7 +109,7 @@ MLV_Ev SCN_wait_ev() {
     MLV_wait_milliseconds(16);
 
     ev.type = MLV_get_event(&ev.key_btn, NULL, NULL, NULL, NULL, NULL, NULL, &ev.button, &ev.state);
-    if (ev.state == MLV_PRESSED && ev.button == MLV_BUTTON_LEFT)
+    if (ev.state == MLV_PRESSED || ev.state == MLV_RELEASED)
         MLV_get_mouse_position(&ev.x, &ev.y);
 
     return ev;

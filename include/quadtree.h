@@ -152,4 +152,14 @@ void QuadTree_load_particules_list(
 ListeParticulesEntry* TabListeEntryParticules_alloc_cellule(
     TabListeEntryParticules* tab_plist, Particule* p);
 
+/**
+ * @brief Renvoie l'adresse de la particule situé en (x, y).
+ * 
+ * @param qt 
+ * @param x 
+ * @param y 
+ * @return Particule* Adresse de la particule, NULL si non trouvé
+ */
+Particule* Quadtree_search_particule(const QuadTree* qt, int x, int y);
+
 #endif

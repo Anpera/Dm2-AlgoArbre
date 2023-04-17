@@ -144,7 +144,7 @@ int UI_draw_buttons(Buttons* buttons, MLV_Ev ev) {
 }
 
 int UI_test_buttons(Buttons* buttons, MLV_Ev ev) {
-    if (!IS_CLICK(ev))
+    if (!IS_LEFT_CLICK(ev))
         return NONE;
     for (int i = 0; i < buttons->len; ++i) {
         Button* button = &buttons->buttons[i];

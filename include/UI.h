@@ -152,10 +152,16 @@ int UI_test_buttons(Buttons* buttons, MLV_Ev ev);
 MLV_Ev UI_wait_ev();
 
 /**
- * @brief Détermine si l'évènement souris est un clic
+ * @brief Détermine si l'évènement souris est un clic gauche.
  * 
  */
-#define IS_CLICK(ev) (ev.button == MLV_BUTTON_LEFT && ev.state == MLV_PRESSED)
+#define IS_LEFT_CLICK(ev) (ev.button == MLV_BUTTON_LEFT && ev.state == MLV_PRESSED)
+
+/**
+ * @brief Détermine si l'évènement souris est un clic droit.
+ * 
+ */
+#define IS_RIGHT_CLICK(ev) (ev.button == MLV_BUTTON_RIGHT && ev.state == MLV_PRESSED)
 
 /**
  * @brief Détermine si le bouton id_button_clicked correspond à id_button
@@ -168,7 +174,7 @@ MLV_Ev UI_wait_ev();
  * et si ``id_button_clicked`` correspond à ``id_button``
  * 
  */
-#define IS_CLICKED(ev, id_button_clicked, id_button) (IS_CLICK(ev) && (IS_BUTTON(id_button_clicked, id_button)))
+#define IS_CLICKED(ev, id_button_clicked, id_button) (IS_LEFT_CLICK(ev) && (IS_BUTTON(id_button_clicked, id_button)))
 
 
 // Ces macros permettent d'initaliser des structures

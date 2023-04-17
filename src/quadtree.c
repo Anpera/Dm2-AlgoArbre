@@ -27,8 +27,7 @@ QuadTree QuadTree_init(Parameters params) {
         .len = 0,
     };
 
-    // int tab_size = pow(params.window.width / params.feuille.taille_min, 2);
-    // 4^0 + 4^1 + 4^2 + 4^3 + 4^n (n = log2(W))
+    // 4^0 + 4^1 + 4^2 + 4^3 + 4^n (n = log2(largeur_fenetre / taille_min_noeud))
     int tab_size = (
         (pow4ll(log2ll(params.window.width / params.feuille.taille_min) + 1) - 1) / \
         (4 - 1) \
@@ -160,4 +159,33 @@ void Quadtree_reset(QuadTree* qt) {
     qt->root = Quadtree_alloc_node(
         qt, qt->root->pos);
     qt->tab_plist.len = 0;
+}
+
+static Particule* Quadtree_search_particule_aux(const QuadTreeRoot tree, int x, int y) {
+    
+    if (!Square_contains_point(tree->pos, (Particule) {.x = x, .y = y}))
+        return NULL;
+    
+    if (!DIVIDED_NODE(tree)) {
+        ListeParticulesEntry* entry;
+        STAILQ_FOREACH(entry, &tree->plist, entries) {
+            if (distance_euclidienne(entry->p->x, entry->p->y, x, y) < 10) {
+                return entry->p;
+            }
+        }
+        return NULL;
+    }
+
+    Particule* p = NULL;
+
+    if ((p = Quadtree_search_particule_aux(tree->hg, x, y))) return p;
+    if ((p = Quadtree_search_particule_aux(tree->hd, x, y))) return p;
+    if ((p = Quadtree_search_particule_aux(tree->bd, x, y))) return p;
+    if ((p = Quadtree_search_particule_aux(tree->bg, x, y))) return p;
+
+    return NULL;
+}
+
+Particule* Quadtree_search_particule(const QuadTree* qt, int x, int y) {
+    return Quadtree_search_particule_aux(qt->root, x, y);
 }
