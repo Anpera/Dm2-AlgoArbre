@@ -35,65 +35,65 @@ void aled(){
             "une liste exhaustive de tous les arguments utilisables\n"
             "ainsi que leur instruction d'utilisation.\n"
             "Ils seront marqués selon la syntaxe suivante :\n\n"
-            "-option_format_long / -option_format_court [parametre]\n\n"
+            "-format_long=[parametre] / -format_court [parametre]\n\n"
             "Par exemple, le message \n"
             "\"-fenetre / -f [int]\" signifie que l'on peut soit\n"
-            "utilisé le flag -fenetre suivit de l'entier, soit le flag\n"
+            "utiliser le flag -fenetre suivit de l'entier, soit le flag\n"
             "-f suivit du même entier.\n\n");
 
     printf("-forme / -g [carre/cercle]\n"
-            "Active la génération de particules aléatoires et\n"
-            "définie la forme de la génération.\n"
-            "Seul \"carre\" et \"cercle\" sont acceptés.\n\n");
+            "\tActive la génération de particules aléatoires et\n"
+            "\tdéfinit la forme de la génération.\n"
+            "\tSeul \"carre\" et \"cercle\" sont acceptés.\n\n");
 
     printf("-rayon / -r [int]\n"
-            "Définie le rayon de génération aléatoire de particules.\n"
-            "L'entier int doit être strictement positif.\n\n");
+            "\tDéfinit le rayon de génération aléatoire de particules.\n"
+            "\tL'entier int doit être strictement positif.\n\n");
 
     printf("-nbpoints / -n [int]\n"
-            "Définie le nombre de points que générera la génération\n"
-            "aléatoire.\n"
-            "L'entier int doit être strictement positif.\n\n");
+            "\tDéfinit le nombre de points que générera la génération\n"
+            "\taléatoire.\n"
+            "\tL'entier int doit être strictement positif.\n\n");
 
     printf("-nbclicks / -s [int]\n"
-            "Définie le nombre de points que l'utilisateur peut générer\n"
-            "manuellement.\n"
-            "L'entier int doit être strictement positif.\n\n");
+            "\tDéfinit le nombre de points que l'utilisateur peut générer\n"
+            "\tmanuellement.\n"
+            "\tL'entier int doit être strictement positif.\n\n");
 
     printf("-concentration / -c [float]\n"
-            "Définie la concentration des points par rapport au centre\n"
-            "de la génération aléatoire. Une valeur plus élevée donnera\n"
-            "plus de points au centre.\n"
-            "Le nombre à virgule float peut être autant négatif\n"
-            "que compris entre 0 et 1.\n\n");
+            "\tDéfinit la concentration des points par rapport au centre\n"
+            "\tde la génération aléatoire. Une valeur plus élevée donnera\n"
+            "\tplus de points au centre.\n"
+            "\tLe nombre à virgule float peut être autant négatif\n"
+            "\tque compris entre 0 et 1.\n\n");
 
     printf("-tri / -t\n"
-            "tri les points de la génération aléatoire selon leur\n"
-            "proximité avec le centre de la "
-            "fenêtre.\n\n");
+            "\ttri les points de la génération aléatoire selon leur\n"
+            "\tproximité avec le centre de la "
+            "\tfenêtre.\n\n");
 
     printf("-pas-a-pas / -p\n"
-            "Montre l'ajout de points de la génération aléatoire et\n"
-            "rafraichit l'affichage à chaque point.\n\n");
+            "\tMontre l'ajout de points de la génération aléatoire et\n"
+            "\trafraichit l'affichage à chaque point.\n\n");
 
     printf("-velocite / -v [int]\n"
-            "Définie une vitesse de déplacement pour tous les points\n"
-            "ajoutés dans le programme, générer aléatoirement ou définie\n"
-            "par l'utilisateur.\n"
-            "L'entier int doit simplement être un entier.\n\n");
+            "\tDéfinit une vitesse de déplacement pour tous les points\n"
+            "\tajoutés dans le programme, générer aléatoirement ou définie\n"
+            "\tpar l'utilisateur.\n"
+            "\tL'entier int doit simplement être un entier.\n\n");
 
     printf("-fenetre / -f [int]\n"
-            "Définie la taille de la fenêtre.\n"
-            "L'entier [int] doit être strictement positive et\n"
-            "être une puissance de 2.\n\n");
+            "\tDéfinit la taille de la fenêtre.\n"
+            "\tL'entier [int] doit être strictement positive et\n"
+            "\têtre une puissance de 2.\n\n");
 
     printf("-maxpar / -k [int]\n"
-            "Définie le nombre maximum de particules dans un noeud.\n"
-            "L'entier [int] doit être strictement positive.\n\n");
+            "\tDéfinit le nombre maximum de particules dans un noeud.\n"
+            "\tL'entier [int] doit être strictement positive.\n\n");
         
     printf("-taillemin / -m [int]\n"
-            "Définie la taille minimale d'un noeud en pixels.\n"
-            "L'entier [int] doit être strictement positive.\n\n");
+            "\tDéfinit la taille minimale d'un noeud en pixels.\n"
+            "\tL'entier [int] doit être strictement positive.\n\n");
 
     printf("Pour déplacer un point, maintenez le clic droit sur un\n"
         "point et relâchez la souris là où vous voulez déposer le point.\n"
