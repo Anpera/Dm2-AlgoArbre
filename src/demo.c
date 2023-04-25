@@ -41,6 +41,11 @@ void aled(){
             "utiliser le flag -fenetre suivit de l'entier, soit le flag\n"
             "-f suivit du même entier.\n\n");
 
+    printf("-help / -aled / -h\n"
+            "Permet d'afficher les différentes options mais également\n"
+            "comment les utiliser.\n"
+            "A noter que cette option met fin à l'exécution du programme.\n\n");
+
     printf("-forme / -g [carre/cercle]\n"
             "\tActive la génération de particules aléatoires et\n"
             "\tdéfinit la forme de la génération.\n"
@@ -95,7 +100,8 @@ void aled(){
             "\tDéfinit la taille minimale d'un noeud en pixels.\n"
             "\tL'entier [int] doit être strictement positive.\n\n");
 
-    printf("Pour déplacer un point, maintenez le clic droit sur un\n"
+    printf("Pour créer un point, faites un clic gauche.\n"
+        "Pour déplacer un point, maintenez le clic droit sur un\n"
         "point et relâchez la souris là où vous voulez déposer le point.\n"
         "Pour quitter le programme, appuyer sur la touche échap.\n");
 }
