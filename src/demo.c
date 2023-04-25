@@ -210,9 +210,9 @@ void flags(int argc, char* argv[]){
                 aled();
                 exit(EXIT_FAILURE);
         }
-        if (params.gen.rayon == 0)
-            params.gen.rayon = (params.window.width - 5) / 2;
     }
+    if (params.gen.rayon == 0)
+        params.gen.rayon = (params.window.width) / 2;
 }
 
 int main(int argc, char* argv[]) {
