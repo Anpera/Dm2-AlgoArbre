@@ -7,7 +7,7 @@ LIBS=-lm -lMLV
 CFLAGS=-fdiagnostics-color=always -Wall -pedantic -std=c17 -g -O0
 DM_N=2
 NOM_ZIP=TP$(DM_N)_SEBAN_ABDALLAH.zip
-EXEC=demo
+EXEC=quadtree
 CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile rapport.pdf
 
 SOURCES=$(wildcard $(SRC_DIR)/*.c)
@@ -18,10 +18,10 @@ HEADERS=$(wildcard $(INC_DIR)/*.h)
 OBJS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
 #$(info $(OBJS))
 
-all: $(BUILD_DIR)/$(EXEC)
+all: $(EXEC)
 
 # Assemblage de l'exécutable final
-$(BUILD_DIR)/$(EXEC): $(OBJS)
+$(EXEC): $(OBJS)
 	$(CC) $^ -o $@ $(LIBS)
 
 # Dépendances
@@ -53,6 +53,7 @@ format: $(SOURCES) $(HEADERS)
 
 clean:
 	rm -f $(OBJS)
+	rm -f quadtree
 
 mrproper: clean
 	rm -f $(BUILD_DIR)/$(EXEC)
