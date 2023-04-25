@@ -53,10 +53,9 @@ format: $(SOURCES) $(HEADERS)
 
 clean:
 	rm -f $(OBJS)
-	rm -f quadtree
 
 mrproper: clean
-	rm -f $(BUILD_DIR)/$(EXEC)
+	rm -f ./$(EXEC)
 	rm -f $(NOM_ZIP)
 
 doc: $(SOURCES) $(HEADERS) Doxyfile
