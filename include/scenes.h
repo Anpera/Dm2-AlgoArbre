@@ -29,6 +29,6 @@ void SCN_Quadtree(Parameters params);
  * 
  * @return MLV_Ev   Evènement détecté.
  */
-MLV_Ev SCN_wait_ev();
+MLV_Ev SCN_wait_ev(void);
 
 #endif

@@ -96,6 +96,7 @@ int GEN_points_formule(
             r_max, concentration
         );
         p.vect = gen_vitesse(velocite);
+        p.masse = 1;
         // Si on s'attend à trier, on les ajoute à un tableau de distance temporaire
         if (tri) {
             double dist = GEN_distance(p.x, p.y, offset_x, offset_y);

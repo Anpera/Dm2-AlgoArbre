@@ -9,6 +9,7 @@ typedef struct Particule {
     double x;
     double y;
     Vitesse vect;
+    double masse;
 } Particule;
 
 typedef struct ListeParticulesEntry {

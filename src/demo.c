@@ -28,6 +28,7 @@ static Parameters params = {
         .velocite = 0,
     },
     .nb_clicks = 50,
+    .suivi_curseur = false,
 };
 
 void aled(){
@@ -120,12 +121,13 @@ void flags(int argc, char* argv[]){
         {"velocite",      required_argument, 0, 'v'},
         {"tri",           no_argument,       0, 't'},
         {"pas-a-pas",     no_argument,       0, 'p'},
+        {"suivi",         no_argument,       0, 'u'},
         {"help",          no_argument,       0, 'h'},
         {"aled",          no_argument,       0, 'h'},
         {0, 0, 0, 0},
     };
 
-    while ((opt = getopt_long_only(argc, argv, "tpf:k:m:s:n:g:r:c:v:", long_options, &options_index)) != -1){
+    while ((opt = getopt_long_only(argc, argv, "tpuf:k:m:s:n:g:r:c:v:", long_options, &options_index)) != -1){
         switch (opt){
             case 'f':
                 if ((params.window.width = ((params.window.height) = atoi(optarg))) <= 0 ||
@@ -186,7 +188,11 @@ void flags(int argc, char* argv[]){
                 break;
 
             case 'v':
-                params.feuille.velocite = atoi(optarg);
+                params.feuille.velocite = atof(optarg);
+                break;
+            
+            case 'u':
+                params.suivi_curseur = true;
                 break;
 
             case 'k':
@@ -217,8 +223,12 @@ void flags(int argc, char* argv[]){
                 exit(EXIT_FAILURE);
         }
     }
+
     if (params.gen.rayon == 0)
         params.gen.rayon = (params.window.width) / 2;
+
+    if (params.suivi_curseur && !params.feuille.velocite)
+        params.feuille.velocite = 4;
 }
 
 int main(int argc, char* argv[]) {

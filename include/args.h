@@ -20,10 +20,11 @@ typedef struct {
     struct {
         int max_particules; /**< Nombre maximum de particules dans une feuille (Kp) */
         int taille_min;     /**< Taille minimale d'un carré (puissance de 4) */
-        int velocite;       /**< Vitesse de déplacement */
+        float velocite;     /**< Vitesse de déplacement */
     } feuille;
 
-    int nb_clicks; /**< Nombre de particules supplémentaire pouvant être ajouté par l'utilisateur */
+    int nb_clicks;     /**< Nombre de particules supplémentaire pouvant être ajouté par l'utilisateur */
+    int suivi_curseur; /**< true : Active le suivi du curseur, false : les points se déplacent aléatoirement */
 
 } Parameters;
 
