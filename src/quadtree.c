@@ -4,6 +4,7 @@ static int Quadtree_add_aux(QuadTree* qt, QuadTreeRoot* tree, ListeParticulesEnt
     if (!Square_contains_point((*tree)->pos, *p->p))
         return 0;
 
+    (*tree)->nbp++;
     if (!DIVIDED_NODE(*tree)) {
         if (((*tree)->pos.size <= qt->taille_min || (*tree)->len_plist < qt->max_particules)) {
             STAILQ_INSERT_HEAD(&((*tree)->plist), p, entries);
@@ -108,6 +109,7 @@ int QuadTree_purge(QuadTree* qt, QuadTreeRoot* tree) {
     (*tree)->hd = Quadtree_alloc_node(qt, Square_divide((*tree)->pos, HAUT_DROIT));
     (*tree)->bd = Quadtree_alloc_node(qt, Square_divide((*tree)->pos, BAS_DROIT));
     (*tree)->bg = Quadtree_alloc_node(qt, Square_divide((*tree)->pos, BAS_GAUCHE));
+    (*tree)->nbp = 1;
 
     ListeParticulesEntry* entry;
     while (!STAILQ_EMPTY(&(*tree)->plist)) {
