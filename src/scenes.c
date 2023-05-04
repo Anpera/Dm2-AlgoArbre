@@ -58,16 +58,32 @@ static bool deplace_point_manuel(const QuadTree* qt, MLV_Ev ev) {
     return !!glisser;
 }
 
+static void libere_scn_quadtree(QuadTree* qt, TabPoints* particules, bool err_alloc) {
+    QuadTree_libere(qt);
+    TABPoints_free(particules);
+    if (err_alloc) {
+        fprintf(stderr, "Erreur lors de l'allocation.\n");
+        exit(EXIT_FAILURE);
+    }
+    return;
+}
+
 void SCN_Quadtree(Parameters params) {
-    TabPoints particules;
+    TabPoints particules = {0};
     MLV_Ev ev;
     Particule* point;
     bool glissement = false;
-    QuadTree qt = QuadTree_init(params);
-    TABPoints_init_tabpoints(&particules, params.gen.nb_points + params.nb_clicks);
+    QuadTree qt;
+
+    if (!QuadTree_init(params, &qt) ||
+        !TABPoints_init_tabpoints(&particules, params.gen.nb_points + params.nb_clicks))
+    {
+        libere_scn_quadtree(&qt, &particules, true);
+    }
 
     if (params.gen.enabled) {
-        GEN_choose_generation(params, &particules);
+        if (!GEN_choose_generation(params, &particules))
+            libere_scn_quadtree(&qt, &particules, true);
         QuadTree_load_particules_list(
             &particules, &qt,
             params.gen.pas_a_pas ? GFX_animate_quadtree : NULL
@@ -101,7 +117,7 @@ void SCN_Quadtree(Parameters params) {
         }
         glissement = deplace_point_manuel(&qt, ev);
     }
-    TABPoints_free(&particules);
+    libere_scn_quadtree(&qt, &particules, false);
 }
 
 MLV_Ev SCN_wait_ev() {
