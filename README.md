@@ -49,25 +49,25 @@ ainsi que leur utilité.
 
 `-forme / -g [carre/cercle]`<br>
 Active la génération de particules aléatoires et
-définie la forme de la génération.
+définit la forme de la génération.
 Seul "carre" et "cercle" sont acceptés.
 
 `-rayon / -r [int]`<br>
-Définie le rayon de génération aléatoire de particules.
+Définit le rayon de génération aléatoire de particules.
 L'entier int doit être strictement positif.
 
 `-nbpoints / -n [int]`<br>
-Définie le nombre de points que générera la génération
+Définit le nombre de points que générera la génération
 aléatoire.
 L'entier int doit être strictement positif.
 
 `-nbclicks / -s [int]`<br>
-Définie le nombre de points que l'utilisateur peut générer
+Définit le nombre de points que l'utilisateur peut générer
 manuellement.
 L'entier int doit être strictement positif.
 
 `-concentration / -c [float]`<br>
-Définie la concentration des points par rapport au centre
+Définit la concentration des points par rapport au centre
 de la génération aléatoire. Une valeur plus élevée donnera
 plus de points au centre.
 Le nombre à virgule float peut être autant négatif
@@ -82,22 +82,22 @@ Montre l'ajout de points de la génération aléatoire et
 rafraichit l'affichage à chaque point.
 
 `-velocite / -v [int]`<br>
-Définie une vitesse de déplacement pour tous les points
-ajoutés dans le programme, générer aléatoirement ou définie
+Définit une vitesse de déplacement pour tous les points
+ajoutés dans le programme, générer aléatoirement ou définit
 par l'utilisateur.
 L'entier int doit simplement être un entier.
 
 `-fenetre / -f [int]`<br>
-Définie la taille de la fenêtre.
+Définit la taille de la fenêtre.
 L'entier [int] doit être strictement positive et
 être une puissance de 2.
 
 `-maxpar / -k [int]`<br>
-Définie le nombre maximum de particules dans un noeud.
+Définit le nombre maximum de particules dans un noeud.
 L'entier [int] doit être strictement positive.
 
 `-taillemin / -m [int]`<br>
-Définie la taille minimale d'un noeud en pixels.
+Définit la taille minimale d'un noeud en pixels.
 L'entier [int] doit être strictement positive.
 
 Pour créer un point, faites un clic gauche.<br>
