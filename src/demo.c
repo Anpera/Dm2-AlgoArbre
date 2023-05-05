@@ -35,16 +35,16 @@ void aled(){
             "une liste exhaustive de tous les arguments utilisables\n"
             "ainsi que leur instruction d'utilisation.\n"
             "Ils seront marqués selon la syntaxe suivante :\n\n"
-            "-format_long=[parametre] / -format_court [parametre]\n\n"
+            "-option_format_long=[parametre] / -o [parametre]\n\n"
             "Par exemple, le message \n"
             "\"-fenetre / -f [int]\" signifie que l'on peut soit\n"
-            "utiliser le flag -fenetre suivit de l'entier, soit le flag\n"
-            "-f suivit du même entier.\n\n");
+            "utiliser le flag \"-fenetre\", soit son raccourci \"-f\"\n"
+            "suivi de l'entier.\n\n");
 
     printf("-help / -aled / -h\n"
-            "Permet d'afficher les différentes options mais également\n"
-            "comment les utiliser.\n"
-            "A noter que cette option met fin à l'exécution du programme.\n\n");
+            "\tPermet d'afficher les différentes options mais également\n"
+            "\tcomment les utiliser.\n"
+            "\tA noter que cette option met fin à l'exécution du programme.\n\n");
 
     printf("-forme / -g [carre/cercle]\n"
             "\tActive la génération de particules aléatoires et\n"
@@ -70,16 +70,16 @@ void aled(){
             "\tde la génération aléatoire. Une valeur plus élevée donnera\n"
             "\tplus de points au centre.\n"
             "\tLe nombre à virgule float peut être autant négatif\n"
-            "\tque compris entre 0 et 1.\n\n");
+            "\tque compris entre 0 et 1, ou plus.\n\n");
 
     printf("-tri / -t\n"
-            "\ttri les points de la génération aléatoire selon leur\n"
+            "\ttrie les points de la génération aléatoire selon leur\n"
             "\tproximité avec le centre de la "
             "\tfenêtre.\n\n");
 
     printf("-pas-a-pas / -p\n"
-            "\tMontre l'ajout de points de la génération aléatoire et\n"
-            "\trafraichit l'affichage à chaque point.\n\n");
+            "\tMontre l'ajout des points de la génération aléatoire en\n"
+            "\trafraîchissant l'affichage à chaque ajout.\n\n");
 
     printf("-velocite / -v [int]\n"
             "\tDéfinit une vitesse de déplacement pour tous les points\n"
@@ -89,16 +89,16 @@ void aled(){
 
     printf("-fenetre / -f [int]\n"
             "\tDéfinit la taille de la fenêtre.\n"
-            "\tL'entier [int] doit être strictement positive et\n"
+            "\tL'entier [int] doit être strictement positif et\n"
             "\têtre une puissance de 2.\n\n");
 
     printf("-maxpar / -k [int]\n"
             "\tDéfinit le nombre maximum de particules dans un noeud.\n"
-            "\tL'entier [int] doit être strictement positive.\n\n");
+            "\tL'entier [int] doit être strictement positif.\n\n");
         
     printf("-taillemin / -m [int]\n"
             "\tDéfinit la taille minimale d'un noeud en pixels.\n"
-            "\tL'entier [int] doit être strictement positive.\n\n");
+            "\tL'entier [int] doit être strictement positif.\n\n");
 
     printf("Pour créer un point, faites un clic gauche.\n"
         "Pour déplacer un point, maintenez le clic droit sur un\n"
