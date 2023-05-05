@@ -19,7 +19,7 @@ Pour compiler le programme, il suffit simplement de lancer une des commandes sui
 - make quadtree
 - make
 
-Et voilà, vous vous retrouver normalement avec un exécutable `quadtree` à la racine du dossier.
+Et voilà, vous vous retrouverez normalement avec un exécutable `quadtree` à la racine du dossier.
 
 # Instruction d'utilisation
 
