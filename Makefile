@@ -4,11 +4,10 @@ SRC_DIR=src
 INC_DIR=include
 INCLUDE=-I$(INC_DIR)
 LIBS=-lm -lMLV
-CFLAGS=-fdiagnostics-color=always -Wall -pedantic -std=c17 -g -O0
-DM_N=2
-NOM_ZIP=TP$(DM_N)_SEBAN_ABDALLAH.zip
+CFLAGS=-fdiagnostics-color=always -Wall -pedantic -std=c17 -O2
+NOM_ZIP=SEBAN_ABDALLAH.zip
 EXEC=quadtree
-CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile rapport.pdf
+CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile Doxyfile README.md
 
 SOURCES=$(wildcard $(SRC_DIR)/*.c)
 HEADERS=$(wildcard $(INC_DIR)/*.h)
@@ -28,24 +27,14 @@ $(EXEC): $(OBJS)
 demo.o: demo.c args.h scenes.h
 generation.o: generation.c types.h
 graphics.o: graphics.c graphics.h types.h
-grille.o: grille.c grille.h
-scenes.o: scenes.c scenes.h UI.h graphics.h generation.h quadtree.h
+scenes.o: scenes.c scenes.h graphics.h generation.h quadtree.h
 quadtree.o: quadtree.c quadtree.h
-UI.o: UI.c UI.h grille.h
 velocite.o: velocite.c velocite.h
 
 # Création des fichiers objets à partir des fichiers sources
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir --parents $(BUILD_DIR)
 	$(CC) $(INCLUDE) $(CFLAGS) -c $< -o $@
-
-rapport: rapport.pdf
-
-rapport.pdf: rapport.md
-	@mkdir --parents logos
-	@wget --quiet --show-progress --no-clobber -O logos/LogoLIGM.png "https://drive.google.com/uc?export=download&confirm=yes&id=1cZjxS6Rwp8LU4Eyahqz0eUS8aH0_VrVB" || true
-	@wget --quiet --show-progress --no-clobber -O logos/namedlogoUGE.png "https://drive.google.com/uc?export=download&confirm=yes&id=1YGm1N7griuDbJhC6rSgBHrrcOsHKM5xg" || true
-	pandoc --toc rapport.md -o rapport.pdf
 
 format: $(SOURCES) $(HEADERS)
 	clang-format -i --style=file $^

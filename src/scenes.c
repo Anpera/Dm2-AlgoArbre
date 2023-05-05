@@ -1,6 +1,18 @@
 #include "scenes.h"
 
 /**
+ * @brief Détermine si l'évènement souris est un clic gauche.
+ * 
+ */
+#define IS_LEFT_CLICK(ev) (ev.button == MLV_BUTTON_LEFT && ev.state == MLV_PRESSED)
+
+/**
+ * @brief Détermine si l'évènement souris est un clic droit.
+ * 
+ */
+#define IS_RIGHT_CLICK(ev) (ev.button == MLV_BUTTON_RIGHT && ev.state == MLV_PRESSED)
+
+/**
  * @brief   Applique la vitesse entré en paramètre
  *          à chaque point de la liste des particules
  *          et gère les collisions avec le bord de l'écran
@@ -120,7 +132,7 @@ void SCN_Quadtree(Parameters params) {
     libere_scn_quadtree(&qt, &particules, false);
 }
 
-MLV_Ev SCN_wait_ev() {
+MLV_Ev SCN_wait_ev(void) {
     MLV_Ev ev = {0};
     MLV_wait_milliseconds(16);
 
