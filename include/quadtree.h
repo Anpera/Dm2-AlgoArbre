@@ -69,9 +69,11 @@ typedef struct QuadTree {
  * @brief Initialise un quadtree.
  * Préalloue un tableau qui contiendra tous les noeuds de l'arbre.
  * 
- * @return QuadTree 
+ * @param params Paramètres de la démo
+ * @param Quadtree* Adresse de l'instance de Quadtree à initialiser 
+ * @return int 0 en cas d'erreur d'allocation, 1 sinon
  */
-QuadTree QuadTree_init(Parameters params);
+int QuadTree_init(Parameters params, QuadTree* qt);
 
 /**
  * @brief Alloue un noeud depuis le tableau préalloué
@@ -161,5 +163,12 @@ ListeParticulesEntry* TabListeEntryParticules_alloc_cellule(
  * @return Particule* Adresse de la particule, NULL si non trouvé
  */
 Particule* Quadtree_search_particule(const QuadTree* qt, int x, int y);
+
+/**
+ * @brief Libère la mémoire allouée par un Quadtree
+ * 
+ * @param qt 
+ */
+void QuadTree_libere(QuadTree* qt);
 
 #endif

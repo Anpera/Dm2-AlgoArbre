@@ -70,8 +70,8 @@ int random_direction();
  * @param tri Spécifie si le tableau doit être trié en fonction
  * de la distance des points par rapport à l'origine du cercle.
  * @param formule Fonction à appeler pour générer un point d'un ensemble.
- * @return 0 si une erreur est survenue pendant l'allocation des points,
- * 1 sinon.
+ * @return 0 si une erreur est survenue pendant l'allocation du tableau temporaire
+ * de points, 1 sinon.
  */
 int GEN_points_formule(
     TabPoints* points,
@@ -119,8 +119,10 @@ void GEN_sort_tab_PointDistance_to_TabPoints(
  * Le tableau doit être initialisé à l'avance
  * @param params Paramètres
  * @param points Tableau de points de destination
+ * 
+ * @return int 0 en cas d'erreur d'allocation, 1 sinon
  */
-void GEN_choose_generation(Parameters params, TabPoints* points);
+int GEN_choose_generation(Parameters params, TabPoints* points);
 
 /**
  * @brief Libére la mémoire allouée pour une liste de particules.

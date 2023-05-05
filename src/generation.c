@@ -122,8 +122,11 @@ void GEN_sort_tab_PointDistance_to_TabPoints(
     free(tab_points);
 }
 
-void GEN_choose_generation(Parameters params, TabPoints* points) {
+int GEN_choose_generation(Parameters params, TabPoints* points) {
     Particule (*formule) (int, int, int, int, int, double);
+
+    if (!points->tab)
+        return 0;
 
     if (params.gen.shape == CERCLE) {
         formule = GEN_formule_cercle;
@@ -136,16 +139,13 @@ void GEN_choose_generation(Parameters params, TabPoints* points) {
         formule = GEN_formule_carre_uniforme;
     }
     srand(time(NULL));
-    GEN_points_formule(points,
+
+    return GEN_points_formule(points,
         params.window.width, params.window.height,
         params.gen.nb_points, params.gen.rayon,
         params.gen.concentration, params.gen.tri,
         params.feuille.velocite, formule
     );
-    /*printf(
-        "Animation : %d, Tri : %d\n",
-        params.gen.pas_a_pas, params.gen.tri
-    );*/
 }
 
 void GEN_free_ListParticules(ListeParticules* lst, bool free_points) {
