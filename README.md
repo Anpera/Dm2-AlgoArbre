@@ -5,9 +5,10 @@
 
 <h1>Sommaire</h1>
 
-- [Instruction de compilation](#instruction-de-compilation)
-- [Instruction d'utilisation](#instruction-dutilisation)
+- [Instructions de compilation](#instruction-de-compilation)
+- [Instructions d'utilisation](#instruction-dutilisation)
 - [Répartition / Organisation du travail](#répartition--organisation-du-travail)
+- [Remarques](#remarques)
 - [Améliorations possibles et bugs](#améliorations-possibles-et-bugs)
 
 
@@ -49,28 +50,32 @@ ainsi que leur utilité.
 `-forme / -g [carre/cercle]`<br>
 Active la génération de particules aléatoires et
 définit la forme de la génération.
-Seul "carre" et "cercle" sont acceptés.
+Seul "carre" et "cercle" sont acceptés. Par défaut, "cercle".
+
 
 `-rayon / -r [int]`<br>
 Définit le rayon de génération aléatoire de particules.
-L'entier int doit être strictement positif.
+L'entier int doit être strictement positif. Par défaut, le rayon
+de la fenêtre.
 
 `-nbpoints / -n [int]`<br>
 Définit le nombre de points que générera la génération
 aléatoire.
-L'entier int doit être strictement positif.
+L'entier int doit être strictement positif. Par défaut, 250 points.
 
 `-nbclicks / -s [int]`<br>
 Définit le nombre de points que l'utilisateur peut générer
 manuellement.
 L'entier int doit être strictement positif.
+Par défaut, 50 avec génération aléatoire, sinon 50 + nbpoints.
 
 `-concentration / -c [float]`<br>
 Définit la concentration des points par rapport au centre
 de la génération aléatoire. Une valeur plus élevée donnera
 plus de points au centre.
 Le nombre à virgule float peut être autant négatif
-que compris entre 0 et 1, ou plus
+que compris entre 0 et 1, ou plus.
+Par défaut, 1.8.
 
 `-tri / -t`<br>
 trie les points de la génération aléatoire selon leur
@@ -90,25 +95,32 @@ L'entier [int] doit être un entier.
 Définit la taille de la fenêtre.
 L'entier [int] doit être strictement positif et
 être une puissance de 2.
+Par défaut, 512.
 
 `-maxpar / -k [int]`<br>
 Définit le nombre maximum de particules dans un nœud.
 L'entier [int] doit être strictement positif.
+Par défaut, 5.
 
 `-taillemin / -m [int]`<br>
 Définit la taille minimale d'un nœud en pixels.
 L'entier [int] doit être strictement positif.
+Par défaut, 8.
 
 Exemple d'exécution :
 
 ```shell
-./quadtree -nbclicks 20 -velocite=2 -taillemin=8 -concentration=0.5 -n 500 -t -p
+./quadtree -nbclicks 20 -velocite=2 -taillemin=16 -concentration=0.5 -n 500 -t -p
+```
+
+```shell
+./quadtree -forme carre -concentration=1 -n 150 -p
 ```
 
 ## Actions réalisables pendant l'exécution
 
-- Pour créer un point, faites un clic gauche.<br>
-- Pour déplacer un point, maintenez le clic droit sur un point et relâchez la souris là où vous voulez déposer le point.<br>
+- Pour créer un point, faites un clic gauche.
+- Pour déplacer un point, maintenez le clic droit sur un point et relâchez la souris là où vous voulez déposer le point.
 - Pour quitter le programme, appuyez sur la touche Échap.
 
 # Répartition / Organisation du travail

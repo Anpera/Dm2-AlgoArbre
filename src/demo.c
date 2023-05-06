@@ -30,11 +30,11 @@ static Parameters params = {
     .nb_clicks = 50,
 };
 
-void aled(){
+void aled(void) {
     printf("Bienvenue sur le message d'aide. Vous trouverez ici\n"
             "une liste exhaustive de tous les arguments utilisables\n"
-            "ainsi que leur instruction d'utilisation.\n"
-            "Ils seront marqués selon la syntaxe suivante :\n\n"
+            "ainsi que leurs instructions d'utilisation.\n"
+            "Ils seront saisissables selon la syntaxe suivante :\n\n"
             "-option_format_long=[parametre] / -o [parametre]\n\n"
             "Par exemple, le message \n"
             "\"-fenetre / -f [int]\" signifie que l'on peut soit\n"
@@ -58,24 +58,27 @@ void aled(){
     printf("-nbpoints / -n [int]\n"
             "\tDéfinit le nombre de points que générera la génération\n"
             "\taléatoire.\n"
-            "\tL'entier int doit être strictement positif.\n\n");
+            "\tL'entier int doit être strictement positif.\n"
+            "\tPar défaut, 250.\n\n");
 
     printf("-nbclicks / -s [int]\n"
             "\tDéfinit le nombre de points que l'utilisateur peut générer\n"
             "\tmanuellement.\n"
-            "\tL'entier int doit être strictement positif.\n\n");
+            "\tL'entier int doit être strictement positif.\n"
+            "\tPar défaut, 50 avec génération aléatoire,\n"
+            "\tsinon 50 + nbpoints.\n\n");
 
     printf("-concentration / -c [float]\n"
             "\tDéfinit la concentration des points par rapport au centre\n"
             "\tde la génération aléatoire. Une valeur plus élevée donnera\n"
             "\tplus de points au centre.\n"
             "\tLe nombre à virgule float peut être autant négatif\n"
-            "\tque compris entre 0 et 1, ou plus.\n\n");
+            "\tque compris entre 0 et 1, ou plus.\n"
+            "\tPar défaut, 1.8.\n\n");
 
     printf("-tri / -t\n"
             "\ttrie les points de la génération aléatoire selon leur\n"
-            "\tproximité avec le centre de la "
-            "\tfenêtre.\n\n");
+            "\tproximité avec le centre de la fenêtre.\n\n");
 
     printf("-pas-a-pas / -p\n"
             "\tMontre l'ajout des points de la génération aléatoire en\n"
@@ -90,15 +93,17 @@ void aled(){
     printf("-fenetre / -f [int]\n"
             "\tDéfinit la taille de la fenêtre.\n"
             "\tL'entier [int] doit être strictement positif et\n"
-            "\têtre une puissance de 2.\n\n");
+            "\tPar défaut, 512.\n\n");
 
     printf("-maxpar / -k [int]\n"
             "\tDéfinit le nombre maximum de particules dans un noeud.\n"
-            "\tL'entier [int] doit être strictement positif.\n\n");
+            "\tL'entier [int] doit être strictement positif.\n\n"
+            "\tPar défaut, 5.\n\n");
         
     printf("-taillemin / -m [int]\n"
             "\tDéfinit la taille minimale d'un noeud en pixels.\n"
-            "\tL'entier [int] doit être strictement positif.\n\n");
+            "\tL'entier [int] doit être strictement positif.\n"
+            "\tPar défaut, 8.\n\n");
 
     printf("Pour créer un point, faites un clic gauche.\n"
         "Pour déplacer un point, maintenez le clic droit sur un\n"
@@ -125,7 +130,7 @@ void flags(int argc, char* argv[]){
         {0, 0, 0, 0},
     };
 
-    while ((opt = getopt_long_only(argc, argv, "tpf:k:m:s:n:g:r:c:v:", long_options, &options_index)) != -1){
+    while ((opt = getopt_long_only(argc, argv, "tphf:k:m:s:n:g:r:c:v:", long_options, &options_index)) != -1){
         switch (opt){
             case 'f':
                 if ((params.window.width = ((params.window.height) = atoi(optarg))) <= 0 ||
